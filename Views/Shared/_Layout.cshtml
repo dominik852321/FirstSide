@@ -1,51 +1,95 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+<!DOCTYPE html>
+@inject SignInManager<ApplicationUser> SignInManager
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <title>@ViewData["Title"] - FirstSide</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <script src="https://kit.fontawesome.com/f35b5df2b2.js" crossorigin="anonymous"></script>
+
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                
+
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Restauracje</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Photo" asp-action="Create">Create</a>
+                            <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Events">Wydarzenia</a>
                         </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link  " asp-area="" asp-controller="Restaurant" asp-action="Create">Dodaj Restauracje</a>
+                            </li>
+                            
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Manage
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="Administration"
+                                       asp-action="ListUsers">Users</a>
+                                    <a class="dropdown-item" asp-controller="Administration"
+                                       asp-action="ListRoles">Roles</a>
+                                </div>
+                            </li>
+                           
+                            <li class="nav-item ml-auto">
+                                <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button type="submit" style="width:auto"
+                                            class="nav-link btn btn-link">
+                                        Logout @User.Identity.Name
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item ml-auto">
+                                <a class="nav-link text-light " asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link text-light " asp-area="" asp-controller="Account" asp-action="SignIn">Sign in</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
+    <div class="container" style="max-width:80%">
         <main role="main" class="pb-3">
+
             @RenderBody()
-            @if (IsSectionDefined("Scripts"))
-            {
-                @RenderSection("Scripts", required: true)
-            }
+
         </main>
     </div>
-   
 
-    <footer class="border-top footer text-muted">
+
+    <footer class="border-top  footer text-muted  bg-dark">
         <div class="container">
-            &copy; 2019 - FirstSide 
+            &copy; 2019 - FirstSide
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-   
+    @RenderSection("Scripts", required: false)
+
 </body>
 </html>

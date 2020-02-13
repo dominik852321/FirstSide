@@ -1,0 +1,45 @@
+﻿@model RegisterVM
+
+
+@{
+    ViewData["Title"] = "Register";
+}
+    <form asp-action="Register" asp-controller="Account" method="post" class="form-signin col-5 ml-auto mr-auto" role="form">
+        <div class="text-center mb-4">
+            <h1 class="h3 mb-3 font-weight-normal">Rejestracja</h1>
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="UserName">Name</label>
+            <input asp-for="UserName" class="form-control" placeholder="User name" required autofocus>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" placeholder="Email address" required autofocus>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" placeholder="Password" required>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="City"></label>
+            <input asp-for="City" class="form-control" placeholder="Password" required>
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <p class="mt-5 mb-3 text-muted text-center">&copy; 2019-2020</p>
+
+    </form>

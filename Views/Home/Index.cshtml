@@ -1,20 +1,82 @@
 ﻿@model HomeVM
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Restaurants";
 }
 
- <div class="row">
-        @foreach (var photo in Model.Zdjęcia)
+
+
+<div class="row">
+    @if (Model.Restaurants != null)
+    {
+        @for (int i = 0; i < Model.Restaurants.Count; i++)
         {
-            var photoPath = "~/Image/" + (photo.ZdjecieUrl ?? "noimage.jpg");
-            <div class="col-mb-3 shadow-sm">
+            var pht = "~/Image/" + (Model.Restaurants[i].ZdjecieUrl);
 
-                <div class="img-thumbnail">
-                    <img src="@photoPath" asp-append-version="true" alt="" width="250" height="200" />
-                    <p class="text-center">@photo.Name</p>
+            <div class="col-lg-3">
+                <div class="col-12 mx-auto m-3 shadow-sm border rounded p-0" id="restauracje">
+
+
+                    <p class="font-weight-bolder text-center ">@Model.Restaurants[i].Name</p>
+
+                    <a asp-controller="Home" asp-action="Information" asp-route-id="@Model.Restaurants[i].Id">
+                        <img src="@pht" asp-append-version="true" class="rounded border w-100" height="200" />
+                    </a>
+
+                    <div class="row d-flex justify-content-around">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+
+                            <a href="javascript:void(0)" class="like" data-id="@Model.Restaurants[i].Id"><i class="btn far fa-thumbs-up" style="color:cornflowerblue"></i><span>@Model.Restaurants[i].postlike</span></a>
+
+
+                               
+
+
+                        }
+
+                    </div>
+
+                    <div class="row d-flex justify-content-between p-3">
+                        <h6 class="">@Model.Restaurants[i].City</h6>
+                        <h6 class="">@Model.Restaurants[i].UserName</h6>
+                    </div>
+
+
                 </div>
-
             </div>
-            }
-  </div>
+        }
+    }
+</div>
+
+
+    @section Scripts {
+        <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+
+        <script type="text/javascript">
+
+            
+
+            $(document).on("click", "a.like", function () {
+                var a = $(this);
+                var id = a.data('id');
+               
+            $.ajax({
+                url: "@Url.Action("LikeThis")",
+                type: "POST",
+                data: { id: id },
+                 dataType: "json",
+                success: function (result) {
+                    a.html('<i class="btn fas fa-thumbs-up" style="color:cornflowerblue"></i><span>' + result + '</span>');
+                    },
+                    failure: function (result) {
+                        alert('error' + result);
+                    }
+                });
+            });
+
+
+        </script>
+    }

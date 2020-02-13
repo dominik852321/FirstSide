@@ -1,10 +1,14 @@
 ﻿using FirstSide.Models;
 using System.Collections.Generic;
 
+
 namespace FirstSide.ViewModels
 {
     public class HomeVM
     { 
-        public List<Photo> Zdjęcia { get; set; }
+        public List<Restaurant> Restaurants { get; set; }
+        public List<Event> Events { get; set; }
+
+
     }
 }

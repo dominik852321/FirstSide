@@ -5,22 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200113153054_newrt.cs" />
+    <Compile Remove="Migrations\20200113153054_newrt.Designer.cs" />
+    <Compile Remove="Migrations\20200203160633_firs.cs" />
+    <Compile Remove="Migrations\20200203160633_firs.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Image\" />
   </ItemGroup>
 
 </Project>

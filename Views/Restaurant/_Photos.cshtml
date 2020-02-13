@@ -1,0 +1,25 @@
+﻿@model  Restaurant
+
+
+@foreach (var photo in Model.photo)
+{
+    var pht = "~/Image/" + (photo.Zdjecie);
+    <div id="@photo.Id">
+
+     
+        <a asp-action="DeletePhoto" asp-controller="Restaurant" asp-route-id="@photo.Id"
+           data-ajax="true"
+           data-ajax-method="post"
+           data-ajax-update="#@photo.Id">
+            <img class="rounded border shadow-sm w-100  my-1 " height="100" src="@pht" asp-append-version="true" />
+        </a>
+
+
+
+
+    </div>
+}
+
+
+
+

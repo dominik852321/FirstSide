@@ -56,16 +56,39 @@ button.accept-policy {
 html {
   position: relative;
   min-height: 100%;
+  
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-image:url("../Image/img(20).png");
+    background-repeat:no-repeat;
+    background-size:cover;
+   
+    
+    
+}
+#restauracje {
+
+    background-color:azure;
+    
+    opacity:0.9;
 }
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 50px; /* Vertically center the text there */
+  
 }
+
+#DeleteRestaurant
+{
+    font-size:30px;
+    color:dimgrey;
+       
+}
+
+

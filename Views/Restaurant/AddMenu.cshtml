@@ -1,0 +1,46 @@
+﻿@model RestaurantMenu
+
+@{
+    ViewData["Title"] = "Add Menu";
+}
+
+<div class="row">
+    <form asp-action="AddMenu" asp-controller="Restaurant" method="post" class="col-4 mx-auto text-center" autocomplete="off">
+
+        <div class="display-4">@Model.Restaurant.Name</div>
+
+        <input type="hidden" asp-for="@Model.Restaurant.Id" />
+
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="Menu.Alcohol"></label>
+            <input asp-for="Menu.Alcohol" class="form-control" placeholder="Alcohol" >
+            <span asp-validation-for="Menu.Alcohol" class="text-danger"></span>
+        </div>
+
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="Menu.Drink"></label>
+            <input asp-for="Menu.Drink" class="form-control" placeholder="Drink" >
+            <span asp-validation-for="Menu.Drink" class="text-danger"></span>
+        </div>
+
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="Menu.Pizza"></label>
+            <input asp-for="Menu.Pizza" class="form-control" placeholder="Pizza" >
+            <span asp-validation-for="Menu.Pizza" class="text-danger"></span>
+        </div>
+
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="Menu.Foods"></label>
+            <input asp-for="Menu.Foods" class="form-control" placeholder="Foods" >
+            <span asp-validation-for="Menu.Foods" class="text-danger"></span>
+        </div>
+
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-success">Add menu</button>
+        </div>
+
+    </form>
+</div>

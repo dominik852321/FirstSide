@@ -1,0 +1,37 @@
+﻿@model RegisterVM
+
+
+@{
+    ViewData["Title"] = "Sign in";
+}
+    <div class="form-signin col-5 ml-auto mr-auto">
+        <form asp-action="SignIn" asp-controller="Account" method="post">
+
+            <div class="text-center mb-4">
+                <h1 class="h3 mb-3 font-weight-normal">Zaloguj się</h1>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-label-group" style="margin-bottom:0.5rem">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="Email" required autofocus>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-label-group" style="margin-bottom:0.5rem">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" placeholder="Password" required>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            
+
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <p class="mt-5 mb-3 text-muted text-center">&copy; 2019-2020</p>
+        </form>
+    </div>
