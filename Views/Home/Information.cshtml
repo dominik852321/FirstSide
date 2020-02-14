@@ -3,34 +3,34 @@
 @{
     ViewData["Title"] = "Information";
     var photoPath = "~/Image/" + (Model.Restaurant.ZdjecieUrl ?? "noimage.jpg");
-    
+
 }
 
 <div class="row">
     <div class="col-12 rounded shadow-lg border mt-3 p-0" id="restauracje">
-        <div class="row">
+        <div class="row ">
             <div class="col-lg-6 ">
                 <p class="display-3 text-center">@Model.Restaurant.Name</p>
                 <div class="col-10 mx-auto">
-                    
-                    
+
+
                     <div id="przykladowaKaruzela3" class="carousel slide " data-ride="carousel">
-                       
+
                         <div class="carousel-inner">
 
                             <div class="carousel-item active">
-                                <img class="rounded border shadow-lg w-100" height="400" src="@photoPath"  asp-append-version="true">
+                                <img class="rounded border shadow-lg w-100" height="400" src="@photoPath" asp-append-version="true">
                             </div>
 
-                            @if (Model.Restaurant.photo!=null)
-                            { 
-                              @foreach(var pht in Model.Restaurant.photo)
-                               {
-                                var photoPath2 = "~/Image/" + (pht.Zdjecie);
-                                <div class="carousel-item">
-                                    <img class="rounded border shadow-lg w-100" height="400" src="@photoPath2"  asp-append-version="true">
-                                </div>
-                               }
+                            @if (Model.Restaurant.photo != null)
+                            {
+                                @foreach (var pht in Model.Restaurant.photo)
+                                {
+                                    var photoPath2 = "~/Image/" + (pht.Zdjecie);
+                                    <div class="carousel-item">
+                                        <img class="rounded border shadow-lg w-100" height="400" src="@photoPath2" asp-append-version="true">
+                                    </div>
+                                }
                             }
 
 
@@ -54,16 +54,16 @@
 
             <div class="row col-lg-6">
                 <div class="col-xl-6">
-                    <p class="display-4 text-center">Informacje</p>
+                    <p class="h1 text-capitalize text-center ">Informacje</p>
                     <div class="text-center">
                         <h5 class="lead">
                             Otwarte od @Model.Restaurant.Open do @Model.Restaurant.Close.
                         </h5>
-                        <a class="btn btn-primary mt-1" asp-action="EditInformation" asp-controller="Restaurant" asp-route-id="@Model.Restaurant.Id">Edytuj informacje</a>
+                        <a class="btn btn-primary m-2" asp-action="EditInformation" asp-controller="Restaurant" asp-route-id="@Model.Restaurant.Id">Edytuj informacje</a>
                     </div>
                 </div>
                 <div class="col-xl-6 ">
-                    <p class="display-4 text-center">Wydarzenia</p>
+                    <p class="h1 text-capitalize text-center">Wydarzenia</p>
                     <div class="text-center">
 
                         @if (Model.Restaurant.EventRestaurants != null)
@@ -82,7 +82,7 @@
                         {
                             <h5 class="lead">Obecnie nie ma wydarzeń organizowanych/ współorganizowanych</h5>
                         }
-                        <a class="btn btn-primary mt-1" asp-action="AddEvent" asp-controller="Event" asp-route-id="@Model.Restaurant.Id">Dodaj wydarzenie</a>
+                        <a class="btn btn-primary m-2" asp-action="AddEvent" asp-controller="Event" asp-route-id="@Model.Restaurant.Id">Dodaj wydarzenie</a>
 
                     </div>
                 </div>
@@ -115,17 +115,39 @@
                             </div>
                         </div>
                     }
-                    <div class="d-flex justify-content-end align-items-end">
-                        <a asp-action="DeleteRe">
-                            <i class="far fa-trash-alt" id="DeleteRestaurant"></i>
-                        </a>
-                    </div>
+                    
                 </div>
 
-                
+
+            </div>
+
+
+            <div class="col-12">
+                <div class="d-flex justify-content-end m-3">
+                    <i class="far fa-trash-alt" id="DeleteRestaurant" data-toggle="modal" data-target="#DeleteRest"></i>
+                </div>
             </div>
 
         </div>
-
     </div>
+
+    <div class="modal fade" id="DeleteRest" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header mx-auto">
+                    <h5 class="modal-title">Czy napewno chcesz usunąć restaurację ?</h5>
+                </div>
+                <div class="modal-footer">
+                    <div class="mx-auto row">
+                        
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Nie</button>
+                        <form asp-action="DeleteRestaurant" asp-controller="Restaurant" asp-route-id="@Model.Restaurant.Id" method="post">
+                            <button class="btn btn-outline-danger">Tak</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

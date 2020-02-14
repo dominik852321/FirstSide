@@ -86,8 +86,9 @@ body {
 
 #DeleteRestaurant
 {
-    font-size:30px;
+    font-size:25px;
     color:dimgrey;
+    cursor:pointer;
        
 }
 

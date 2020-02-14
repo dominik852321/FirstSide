@@ -161,7 +161,7 @@ namespace FirstSide.Controllers
         public IActionResult EditInformation(int id)
         {
             Restaurant restaurant = _restaurant.Pobierzrestaurant(id);
-           
+
             return View(restaurant);
         }
 
@@ -173,7 +173,7 @@ namespace FirstSide.Controllers
             {
                 _appDbContext.Restaurants.Update(restaurant);
                 _appDbContext.SaveChanges();
-                return RedirectToAction("Information", "Home",  restaurant);
+                return RedirectToAction("Information", "Home", restaurant);
             }
 
             return View();
@@ -187,13 +187,14 @@ namespace FirstSide.Controllers
         }
 
 
-        
+
 
         [HttpPost]
         public ActionResult UploadFiles(int id)
         {
 
             var restaurant = _appDbContext.Restaurants.FirstOrDefault(s => s.Id == id);
+
             try
             {
                 long size = 0;
@@ -222,21 +223,23 @@ namespace FirstSide.Controllers
                 _appDbContext.Entry(restaurant).State = EntityState.Modified;
                 _appDbContext.SaveChanges();
                 return PartialView("_Photos", restaurant);
-
             }
             catch (Exception ex)
             {
                 return View(ex.Message);
             }
+
         }
+
+
 
         [HttpPost]
         public ActionResult DeletePhoto(int id)
         {
-            
+
             var photo = _appDbContext.Photos.FirstOrDefault(s => s.Id == id);
             var rid = photo.Restaurantid;
-            var restaurant = _appDbContext.Restaurants.FirstOrDefault(s => s.Id==rid);
+            var restaurant = _appDbContext.Restaurants.FirstOrDefault(s => s.Id == rid);
 
             _appDbContext.Photos.Remove(photo);
             _appDbContext.Entry(restaurant).State = EntityState.Modified;
@@ -244,7 +247,7 @@ namespace FirstSide.Controllers
 
             var deleteEnv = Path.Combine(_env.WebRootPath, "Image", photo.Zdjecie);
             FileInfo file = new FileInfo(deleteEnv);
-            if(file!=null)
+            if (file != null)
             {
                 System.IO.File.Delete(deleteEnv);
                 file.Delete();
@@ -254,7 +257,35 @@ namespace FirstSide.Controllers
             return PartialView("_Photos", restaurant);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteRestaurant(int id)
+        {
+            var restaurant = await _appDbContext.Restaurants.FirstOrDefaultAsync(s => s.Id == id);
 
+            var Photos = _appDbContext.Photos
+                .Where(s => s.Restaurantid == restaurant.Id)
+                .ToList();
+
+
+            _appDbContext.Restaurants.Remove(restaurant);
+
+            _appDbContext.Photos.RemoveRange(Photos);
+
+            var deleteEnv = Path.Combine(_env.WebRootPath, "Image", restaurant.ZdjecieUrl);
+            var deleteEnv1 = Path.Combine(_env.WebRootPath, "Image", Photos.ToString());
+
+            FileInfo file = new FileInfo(deleteEnv);
+            FileInfo file1 = new FileInfo(deleteEnv1);
+            if (file != null && file1 != null)
+            {
+                System.IO.File.Delete(deleteEnv);
+                System.IO.File.Delete(deleteEnv1);
+                file.Delete();
+                file1.Delete();
+            };
+            _appDbContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
 
 
 
