@@ -223,6 +223,21 @@ namespace FirstSide.Migrations
                     b.ToTable("Restaurants");
                 });
 
+            modelBuilder.Entity("FirstSide.Models.UserRestaurant", b =>
+                {
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RestaurantId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRestaurants");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -383,6 +398,21 @@ namespace FirstSide.Migrations
                     b.HasOne("FirstSide.Models.Restaurant", "Restaurant")
                         .WithMany("photo")
                         .HasForeignKey("Restaurantid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FirstSide.Models.UserRestaurant", b =>
+                {
+                    b.HasOne("FirstSide.Models.Restaurant", "Restaurant")
+                        .WithMany("UserRestaurants")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FirstSide.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("UserRestaurants")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

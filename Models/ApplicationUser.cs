@@ -8,6 +8,9 @@ namespace FirstSide.Models
 {
     public class ApplicationUser:IdentityUser
     {
+        
         public string City { get; set; }
+
+        public ICollection<UserRestaurant> UserRestaurants { get; set; }
     }
 }

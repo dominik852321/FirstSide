@@ -9,6 +9,8 @@ namespace FirstSide.ViewModels
         public List<Restaurant> Restaurants { get; set; }
         public List<Event> Events { get; set; }
 
+        public List<UserRestaurant> UserRestaurants { get; set; }
+
 
     }
 }

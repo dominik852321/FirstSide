@@ -1,7 +1,7 @@
 ﻿@model HomeVM
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
-
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Restaurants";
 }
@@ -28,12 +28,17 @@
                     <div class="row d-flex justify-content-around">
                         @if (SignInManager.IsSignedIn(User))
                         {
+                            var userid = UserManager.GetUserId(User);
+                           
 
-                            <a href="javascript:void(0)" class="like" data-id="@Model.Restaurants[i].Id"><i class="btn far fa-thumbs-up" style="color:cornflowerblue"></i><span>@Model.Restaurants[i].postlike</span></a>
-
-
-                               
-
+                            @if ((Model.Restaurants[i].UserRestaurants.FirstOrDefault(s=>s.UserId==userid))==null)
+                            {
+                                <a href="javascript:void(0)" class="like text-decoration-none" data-id="@Model.Restaurants[i].Id"><i class="btn far fa-thumbs-up" style="color:cornflowerblue"></i><span>@Model.Restaurants[i].postlike</span></a>
+                            }
+                            else
+                            {
+                                <a href="javascript:void(0)" class="Unlike text-decoration-none" data-id="@Model.Restaurants[i].Id" ><i class="btn fas fa-thumbs-up" style="color:cornflowerblue"></i><span>@Model.Restaurants[i].postlike</span></a>
+                            }
 
                         }
 
@@ -70,6 +75,25 @@
                  dataType: "json",
                 success: function (result) {
                     a.html('<i class="btn fas fa-thumbs-up" style="color:cornflowerblue"></i><span>' + result + '</span>');
+                    },
+                    failure: function (result) {
+                        alert('error' + result);
+                    }
+                });
+            });
+
+
+             $(document).on("click", "a.Unlike", function () {
+                var a = $(this);
+                var id = a.data('id');
+               
+            $.ajax({
+                url: "@Url.Action("UnlikeThis")",
+                type: "POST",
+                data: { id: id },
+                 dataType: "json",
+                success: function (result) {
+                    a.html('<i class="btn far fa-thumbs-up" style="color:cornflowerblue"></i><span>' + result + '</span>');
                     },
                     failure: function (result) {
                         alert('error' + result);

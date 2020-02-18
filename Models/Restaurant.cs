@@ -19,6 +19,8 @@ namespace FirstSide.Models
         public int BestPromotions { get; set; }
         public int postlike { get; set; }
         public Menu Menu { get; set;}
+
+        public ICollection<UserRestaurant> UserRestaurants { get; set; }
         public ICollection<Photo> photo { get; set; }
         public ICollection<EventRestaurant> EventRestaurants { get; set; }
 

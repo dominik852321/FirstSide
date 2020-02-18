@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FirstSide.Controllers
 {
@@ -88,22 +90,41 @@ namespace FirstSide.Controllers
             return View(homeVM);
         }
 
-      
+
         [HttpPost]
-        public string LikeThis(int id)
+        public async Task<string> LikeThis(int id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
             var restaurant = _restaurant.Pobierzrestaurant(id);
             restaurant.postlike++;
+            UserRestaurant userRestaurant = new UserRestaurant
+            {
+                ApplicationUser = user,
+                Restaurant = restaurant
+            };
+            _appDbContext.Add(userRestaurant);
+            _appDbContext.Restaurants.Update(restaurant);
             _appDbContext.SaveChanges();
+
+
             return restaurant.postlike.ToString();
         }
 
         [HttpPost]
         public string UnlikeThis(int id)
         {
+            var userid = _userManager.GetUserId(HttpContext.User);
             var restaurant = _restaurant.Pobierzrestaurant(id);
+
+            var UR = _appDbContext.UserRestaurants.FirstOrDefault(s => s.RestaurantId == restaurant.Id && s.UserId == userid);
+              
             restaurant.postlike--;
+           
+            _appDbContext.UserRestaurants.Remove(UR);
+            _appDbContext.Restaurants.Update(restaurant);
             _appDbContext.SaveChanges();
+    
             return restaurant.postlike.ToString();
         }
 

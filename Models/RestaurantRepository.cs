@@ -20,21 +20,26 @@ namespace FirstSide.Models
         {
             return _appDbContext.Restaurants
                 .Include(c=>c.EventRestaurants)
-                .ThenInclude(c=>c.Event);
+                .ThenInclude(c=>c.Event)
+                .Include(s=>s.UserRestaurants)
+                .ThenInclude(s=>s.ApplicationUser);
         }
         public IEnumerable<Event> events()
         {
             return _appDbContext.Events;
         }
 
-
+     
 
         public Restaurant Pobierzrestaurant(int restaurantId)
         {
-            return _appDbContext.Restaurants.Include(c=>c.EventRestaurants).ThenInclude(c=>c.Event)
-                                            .Include(c=>c.photo)
+            return  _appDbContext.Restaurants.Include(c => c.EventRestaurants).ThenInclude(c => c.Event)
+                                            .Include(c => c.photo)
                                             .FirstOrDefault(s => s.Id == restaurantId);
         }
+
+
+
         public void Dodajrestaurant(Restaurant restaurant)
         {
             _appDbContext.Restaurants.Add(restaurant);
@@ -47,19 +52,9 @@ namespace FirstSide.Models
             _appDbContext.SaveChanges();
         }
 
-        public void Like(Restaurant restaurant)
-        {
-            restaurant.postlike += 1;
-            _appDbContext.Restaurants.Update(restaurant);
-            _appDbContext.SaveChanges();
-        }
+     
+      
 
-        public void UnLike(Restaurant restaurant)
-        {
-            restaurant.postlike -= 1;
-            _appDbContext.Restaurants.Update(restaurant);
-            _appDbContext.SaveChanges();
-        }
-
+       
     }
 }

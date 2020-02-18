@@ -10,12 +10,12 @@ namespace FirstSide.Models
         IEnumerable<Restaurant> restaurants();
 
         IEnumerable<Event> events();
+
         Restaurant Pobierzrestaurant(int restaurantId);
 
         void Dodajrestaurant(Restaurant restaurant);
         void Usunrestaurant(Restaurant restaurant);
-        void Like(Restaurant restaurant);
-        void UnLike(Restaurant restaurant);
+       
 
 
     }

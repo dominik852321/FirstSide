@@ -7,8 +7,13 @@
 }
 
 <div class="row">
-    <div class="col-12 rounded shadow-lg border mt-3 p-0" id="restauracje">
+    <div class="col-12 rounded shadow-lg  mt-3 p-0" id="restauracje">
         <div class="row ">
+            <div class="col-12">
+                <div class="d-flex justify-content-end mt-2 mr-2">
+                    <a asp-action="Index" class="fas fa-times text-decoration-none" id="DeleteRestaurant"></a>
+                </div>
+            </div>
             <div class="col-lg-6 ">
                 <p class="display-3 text-center">@Model.Restaurant.Name</p>
                 <div class="col-10 mx-auto">
@@ -80,7 +85,9 @@
                         }
                         else
                         {
-                            <h5 class="lead">Obecnie nie ma wydarzeń organizowanych/ współorganizowanych</h5>
+                    
+                        <h5>Obecnie nie ma wydarzeń organizowanych/ współorganizowanych</h5>
+                    
                         }
                         <a class="btn btn-primary m-2" asp-action="AddEvent" asp-controller="Event" asp-route-id="@Model.Restaurant.Id">Dodaj wydarzenie</a>
 
@@ -99,23 +106,21 @@
                                 <li class="list-group-item h6">@Model.Restaurant.Menu.Alcohol% promotions on Alcohols</li>
 
                             </ul>
-                            <div class="btn-group d-flex justify-content-center">
+                            <div class="d-flex justify-content-center">
                                 <a class="btn btn-primary mt-2" asp-action="EditMenu" asp-controller="Restaurant" asp-route-id="@Model.Restaurant.Menu.Id">Edit menu</a>
-                                <a class="btn btn-outline-primary mt-2" asp-action="Index" asp-controller="Home">Wróć</a>
+                               
                             </div>
                         </div>
 
                     }
                     else
                     {
-                        <div class="col-md-4 mx-auto d-flex justify-content-center">
-                            <div class="btn-group ">
-                                <a class="btn btn-primary " asp-action="AddMenu" asp-controller="Restaurant" asp-route-id="@Model.Restaurant.Id">Add menu</a>
-                                <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Home">Wróć</a>
-                            </div>
+                        <div class="text-center">
+                           <a class="btn btn-primary" asp-action="AddMenu" asp-controller="Restaurant" asp-route-id="@Model.Restaurant.Id">Add menu</a>
                         </div>
+                       
                     }
-                    
+
                 </div>
 
 
@@ -123,7 +128,7 @@
 
 
             <div class="col-12">
-                <div class="d-flex justify-content-end m-3">
+                <div class="d-flex justify-content-end mb-2 mr-2">
                     <i class="far fa-trash-alt" id="DeleteRestaurant" data-toggle="modal" data-target="#DeleteRest"></i>
                 </div>
             </div>

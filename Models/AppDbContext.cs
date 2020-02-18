@@ -16,6 +16,7 @@ namespace FirstSide.Models
 
         public DbSet<Photo> Photos { get; set; }
 
+        public DbSet<UserRestaurant> UserRestaurants { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -32,12 +33,29 @@ namespace FirstSide.Models
                 .WithMany(x => x.EventRestaurants)
                 .HasForeignKey(x => x.RestaurantId);
 
+
+
+
             builder.Entity<Photo>()
                 .HasOne(x => x.Restaurant)
                 .WithMany(x => x.photo)
                 .HasForeignKey(x => x.Restaurantid);
 
-            
+
+
+
+            builder.Entity<UserRestaurant>()
+                .HasKey(p => new { p.RestaurantId, p.UserId });
+            builder.Entity<UserRestaurant>()
+                .HasOne(x => x.Restaurant)
+                .WithMany(x => x.UserRestaurants)
+                .HasForeignKey(x => x.RestaurantId);
+            builder.Entity<UserRestaurant>()
+                .HasOne(x => x.ApplicationUser)
+                .WithMany(x => x.UserRestaurants)
+                .HasForeignKey(x => x.UserId);
+
+
             base.OnModelCreating(builder);
 
         }
