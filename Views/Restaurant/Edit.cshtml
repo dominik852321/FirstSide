@@ -1,0 +1,135 @@
+﻿@model Restaurant
+
+@{
+    ViewData["Title"] = "Edit restaurant";
+    var photoPath = "~/ImageRestaurant/" + (Model.ZdjecieUrl ?? "noimage.jpg");
+}
+
+<div class="row p-3 col-12 rounded shadow-lg border" id="restauracje">
+
+    <div class="col-lg-6  ">
+        <a class="display-4 text-center">Informacje</a>
+
+        <form asp-action="Edit" asp-controller="Restaurant" method="post">
+            <div class="col-10 mx-auto m-4 ">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ZdjecieUrl" />
+
+                <div class="form-group row">
+                    <div class="col-3 p-2">
+                        <label asp-for="Name">Nazwa restauracji</label>
+                    </div>
+                    <div class="col-9">
+                        <input asp-for="Name" class="form-control text-center" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3 p-2">
+                        <label asp-for="City">Miasto</label>
+                    </div>
+                    <div class="col-9">
+                        <input asp-for="City" class="form-control text-center" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3 p-2">
+                        <label asp-for="Open">Otwarte od</label>
+                    </div>
+                    <div class="col-9">
+                        <input asp-for="Open" class="form-control text-center" />
+                        <span asp-validation-for="Open" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3 p-2">
+                        <label asp-for="Close">Zamknięte od</label>
+                    </div>
+                    <div class="col-9">
+                        <input asp-for="Close" class="form-control text-center" />
+                        <span asp-validation-for="Close" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-outline-primary ">Zapisz</button>
+                        <a type="button" asp-controller="Restaurant" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-danger">Wróć</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+    <div class="col-lg-6 row p-0">
+
+
+        <div class="col-md-9 ">
+            <img class="rounded border shadow-lg w-100 " height="300" src="@photoPath" asp-append-version="true">
+
+
+            <form asp-action="UploadFiles" asp-controller="Restaurant" method="post" enctype="multipart/form-data" class="text-center">
+
+                <div class="custom-file">
+                    <input id="files" type="file" />
+
+                    <input type="button" value="Dodaj" onclick="UploadFile()" class="btn btn-primary" />
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-3" id="images">
+            @if (Model.photo != null)
+            {
+                <partial name="_Photos" model="Model" />
+            }
+            else
+            {
+
+
+            }
+        </div>
+    </div>
+
+    
+</div>
+<input type="hidden" id="id" data-id="@Model.Id" />
+@section Scripts {
+    <script type="text/javascript">
+            function UploadFile() {
+                var fileUpload = $("#files").get(0);
+                var files = fileUpload.files;
+                var data = new FormData();
+                data.append(files[0].name, files[0]);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UploadFiles",new {id=Model.Id})',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    dataType: 'html',
+                    async: false,
+                    success: function (result) {
+                        $("#images").append(result);
+                    },
+                    error: function (result) {
+                        alert("Error!" + result );
+                    },
+                });
+            }
+    </script>
+}
+
