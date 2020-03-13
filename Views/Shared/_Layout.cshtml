@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
 
     <title>@ViewData["Title"] - FirstSide</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script src="https://kit.fontawesome.com/f35b5df2b2.js" crossorigin="anonymous"></script>
 
 
@@ -23,39 +24,59 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Restauracje</a>
+                            <a class="nav-link text-light navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Strona główna</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Events">Wydarzenia</a>
+                            <a class="nav-link" asp-area="" asp-controller="Restaurant" asp-action="Index">Restauracje</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Club" asp-action="Clubs">Kluby</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Event" asp-action="Events">Wydarzenia</a>
+                        </li>
+
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link  " asp-area="" asp-controller="Restaurant" asp-action="Create">Dodaj Restauracje</a>
+                            var user = UserManager.GetUserAsync(User);
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="AddNewItem" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dodaj</a>
+
+                                <div class="dropdown-menu" aria-labelledby="AddNewItem">
+                                    <a class="dropdown-item" asp-controller="Restaurant" asp-action="Create">Restauracje</a>
+                                    <a class="dropdown-item" asp-controller="Club" asp-action="Create">Klub</a>
+                                </div>
                             </li>
-                            
-                            
+
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Manage
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" asp-controller="Administration"
-                                       asp-action="ListUsers">Users</a>
-                                    <a class="dropdown-item" asp-controller="Administration"
-                                       asp-action="ListRoles">Roles</a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">Users</a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">Roles</a>
                                 </div>
                             </li>
-                           
-                            <li class="nav-item ml-auto">
-                                <form method="post" asp-controller="Account" asp-action="LogOut">
-                                    <button type="submit" style="width:auto"
-                                            class="nav-link btn btn-link">
-                                        Logout @User.Identity.Name
-                                    </button>
-                                </form>
+
+                            <li class="nav nav-item nav-link dropdown ml-auto">
+                                <a class="fas fa-bars" href="#" id="profile"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </a>
+                                <div class="dropdown-menu shadow-lg border" style="background-color:honeydew" aria-labelledby="profile">
+                                    <button class="dropdown-item" type="button">Profil</button>
+
+                                    <a asp-controller="MyAccount" asp-action="MyRestaurants" class="dropdown-item">Dodane</a>
+
+                                    <form method="post" asp-controller="Account" asp-action="LogOut">
+                                        <button class="dropdown-item" type="submit">Wyloguj się</button>
+                                    </form>
+                                </div>
                             </li>
+
                         }
                         else
                         {

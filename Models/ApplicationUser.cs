@@ -11,6 +11,9 @@ namespace FirstSide.Models
         
         public string City { get; set; }
 
-        public ICollection<UserRestaurant> UserRestaurants { get; set; }
+        public ICollection<Restaurant> Restaurants { get; set; } 
+        public ICollection<Club> Clubs { get; set; }
+
+     
     }
 }

@@ -1,4 +1,6 @@
+using FirstSide.Interface;
 using FirstSide.Models;
+using FirstSide.Repository;
 using FirstSide.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -50,6 +52,10 @@ namespace FirstSide
 
 
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IClubRepository, ClubRepository>();
+
+
             services.AddSingleton<IAuthorizationHandler, CanEditOnlyOtherAdminRolesAndClaimsHandler>();
             services.AddSingleton<IAuthorizationHandler, SuperAdminHandler>();
 

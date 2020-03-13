@@ -87,7 +87,68 @@ namespace FirstSide.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("FirstSide.Models.Event", b =>
+            modelBuilder.Entity("FirstSide.Models.Club", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ZdjecieUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Clubs");
+                });
+
+            modelBuilder.Entity("FirstSide.Models.EventClub", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClubId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EventName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("People")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Place")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClubId");
+
+                    b.ToTable("EventClubs");
+                });
+
+            modelBuilder.Entity("FirstSide.Models.EventRestaurant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,27 +173,14 @@ namespace FirstSide.Migrations
                     b.Property<string>("Place")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("FirstSide.Models.EventRestaurant", b =>
-                {
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
-                    b.HasKey("EventId", "RestaurantId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("EventRestaurant");
+                    b.ToTable("EventRestaurants");
                 });
 
             modelBuilder.Entity("FirstSide.Models.Menu", b =>
@@ -172,7 +220,10 @@ namespace FirstSide.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Restaurantid")
+                    b.Property<int?>("ClubId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RestaurantId")
                         .HasColumnType("int");
 
                     b.Property<string>("Zdjecie")
@@ -180,7 +231,9 @@ namespace FirstSide.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Restaurantid");
+                    b.HasIndex("ClubId");
+
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Photos");
                 });
@@ -191,9 +244,6 @@ namespace FirstSide.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BestPromotions")
-                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -209,33 +259,17 @@ namespace FirstSide.Migrations
                     b.Property<int>("Open")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ZdjecieUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("postlike")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.ToTable("Restaurants");
-                });
-
-            modelBuilder.Entity("FirstSide.Models.UserRestaurant", b =>
-                {
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("RestaurantId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRestaurants");
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -369,14 +403,24 @@ namespace FirstSide.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("FirstSide.Models.EventRestaurant", b =>
+            modelBuilder.Entity("FirstSide.Models.Club", b =>
                 {
-                    b.HasOne("FirstSide.Models.Event", "Event")
-                        .WithMany("EventRestaurants")
-                        .HasForeignKey("EventId")
+                    b.HasOne("FirstSide.Models.ApplicationUser", "User")
+                        .WithMany("Clubs")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("FirstSide.Models.EventClub", b =>
+                {
+                    b.HasOne("FirstSide.Models.Club", "Club")
+                        .WithMany("EventClubs")
+                        .HasForeignKey("ClubId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
+            modelBuilder.Entity("FirstSide.Models.EventRestaurant", b =>
+                {
                     b.HasOne("FirstSide.Models.Restaurant", "Restaurant")
                         .WithMany("EventRestaurants")
                         .HasForeignKey("RestaurantId")
@@ -395,26 +439,20 @@ namespace FirstSide.Migrations
 
             modelBuilder.Entity("FirstSide.Models.Photo", b =>
                 {
+                    b.HasOne("FirstSide.Models.Club", "Club")
+                        .WithMany("Photos")
+                        .HasForeignKey("ClubId");
+
                     b.HasOne("FirstSide.Models.Restaurant", "Restaurant")
                         .WithMany("photo")
-                        .HasForeignKey("Restaurantid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RestaurantId");
                 });
 
-            modelBuilder.Entity("FirstSide.Models.UserRestaurant", b =>
+            modelBuilder.Entity("FirstSide.Models.Restaurant", b =>
                 {
-                    b.HasOne("FirstSide.Models.Restaurant", "Restaurant")
-                        .WithMany("UserRestaurants")
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FirstSide.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("UserRestaurants")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("FirstSide.Models.ApplicationUser", "User")
+                        .WithMany("Restaurants")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

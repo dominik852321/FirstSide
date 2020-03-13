@@ -1,9 +1,9 @@
-﻿@model  Restaurant
+﻿@model Restaurant
 
 
 @foreach (var photo in Model.photo)
 {
-    var pht = "~/Image/" + (photo.Zdjecie);
+    var pht = "~/ImagePhoto/" + (photo.Zdjecie);
     <div id="@photo.Id">
 
      
@@ -13,10 +13,6 @@
            data-ajax-update="#@photo.Id">
             <img class="rounded border shadow-sm w-100  my-1 " height="100" src="@pht" asp-append-version="true" />
         </a>
-
-
-
-
     </div>
 }
 

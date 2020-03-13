@@ -9,10 +9,9 @@ namespace FirstSide.ViewModels
 
         public IFormFile PhotoFile { get; set; }
 
-        public Restaurant restaurant { get; set; }
+        public string Name { get; set; }
 
-       
-
+        public string City { get; set; }
 
     }
 }

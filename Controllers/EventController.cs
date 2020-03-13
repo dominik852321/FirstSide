@@ -1,89 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FirstSide.Interface;
 using FirstSide.Models;
 using FirstSide.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FirstSide.Controllers
 {
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class EventController : Controller
     {
 
         private readonly IWebHostEnvironment _env;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly AppDbContext _appDbContext;
+        private readonly IEventRepository _RepositoryEvent;
+        private readonly IRestaurantRepository _RepositoryRestaurant;
 
 
-        public EventController(IWebHostEnvironment env, UserManager<ApplicationUser> userManager, AppDbContext appDbContext)
+        public EventController(IEventRepository repo, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, IRestaurantRepository repo2)
         {
             _env = env;
             _userManager = userManager;
-            _appDbContext = appDbContext;
+            _RepositoryEvent = repo;
+            _RepositoryRestaurant = repo2;
+         
         }
 
         [HttpGet]
-        [Authorize]
+        public IActionResult Events()
+        {
+            var events = _RepositoryEvent.GetEventsRestaurants();
+            var homeVM = new HomeVM()
+            {
+                EventRestaurant = events.ToList()
+            };
+            return View(homeVM);
+        }
+
+
+        [HttpGet]
         public IActionResult AddEvent(int id)
         {
-            var restaurant = _appDbContext.Restaurants.FirstOrDefault(s => s.Id == id);
+            var restaurant = _RepositoryRestaurant.GetRestaurant(id);
             var NewEvent = new EventVM
             {
-                Restaurant=restaurant
+                RestaurantId=restaurant.Id
             };
             return View(NewEvent);
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AddEvent(EventVM model)
         {
             if (ModelState.IsValid)
             {
-                Restaurant restaurant =_appDbContext.Restaurants.FirstOrDefault(s => s.Id == model.Restaurant.Id);
+                var restaurant = _RepositoryRestaurant.GetRestaurant(model.RestaurantId);
                 string uniqueFileName = null;
-                model.Event.People = 0;
-                
+             
                 var user = await _userManager.GetUserAsync(HttpContext.User);
 
                 if (model.File != null)
                 {
-                    string uploadsFolder = Path.Combine(_env.WebRootPath, "Image");
+                    string uploadsFolder = Path.Combine(_env.WebRootPath, "ImageEvent");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     model.File.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
 
-                 Event newEvent = new Event
+                 EventRestaurant newEvent = new EventRestaurant
                 {
-                    EventName = model.Event.EventName,
-                    DateStart = model.Event.DateStart,
-                    DateEnd= model.Event.DateEnd,
+                    EventName = model.Name,
+                    DateStart = model.DateStart,
+                    DateEnd= model.DateEnd,
                     PhotoUrl = uniqueFileName,
-                    UserName = user.UserName,
-                    Place= model.Event.Place,
+                    Place= model.Place,
+                    Restaurant=restaurant
                 };
-                _appDbContext.Events.Add(newEvent);
-                _appDbContext.SaveChanges();
+                _RepositoryEvent.AddEventRestaurant(newEvent);
+                _RepositoryRestaurant.UpdateRestaurant(restaurant);
 
-
-                restaurant.EventRestaurants = new List<EventRestaurant>();
-                EventRestaurant eventRestaurant = new EventRestaurant
-                {
-                    Restaurant = restaurant,
-                    Event = newEvent
-                };
-
-                restaurant.EventRestaurants.Add(eventRestaurant);
-
-                _appDbContext.Entry(restaurant).State = EntityState.Modified;
-                _appDbContext.SaveChanges();
                 return RedirectToAction("Successful");
             }
 
@@ -93,7 +95,6 @@ namespace FirstSide.Controllers
         [HttpGet]
         public IActionResult Successful()
         {
-
             return View();
         }
 

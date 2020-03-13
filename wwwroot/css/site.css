@@ -62,7 +62,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background-image:url("../Image/img(20).png");
+    background-image:url("../ImageApplication/img(20).png");
     background-repeat:no-repeat;
     background-size:cover;
    
@@ -70,9 +70,7 @@ body {
     
 }
 #restauracje {
-
     background-color:azure;
-    
     opacity:0.9;
 }
 .footer {
@@ -89,7 +87,14 @@ body {
     font-size:25px;
     color:dimgrey;
     cursor:pointer;
+    text-decoration:none;
        
+}
+
+#profile{
+    color:white;
+    font-size:25px;
+    text-decoration:none
 }
 
 

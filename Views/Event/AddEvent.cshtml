@@ -13,35 +13,34 @@
 <form enctype="multipart/form-data" asp-controller="Event" asp-action="AddEvent"
       method="post" class="m-3 col-md-4 mx-auto " autocomplete="off">
 
-    <input type="hidden" asp-for="@Model.Restaurant.Name" />
-    <input type="hidden" asp-for="@Model.Restaurant.Id" />
+    <input type="hidden" asp-for="RestaurantId" />
 
     <div class="form-label-group " style="margin-bottom:0.5rem">
-        <label asp-for="Event.EventName">Nazwa wydarzenia</label>
-        <input asp-for="Event.EventName" class="form-control" placeholder="Wydarzenie" required>
-        <span asp-validation-for="Event.EventName" class="text-danger"></span>
+        <label asp-for="Name">Nazwa wydarzenia</label>
+        <input asp-for="Name" class="form-control" placeholder="Wydarzenie" required>
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
     <div class="form-group d-flex justify-content-between">
 
 
         <div class="form-label-group">
-            <label asp-for="Event.DateStart">Start</label>
-            <input asp-for="Event.DateStart" type="text" class="form-control" id="datetimepicker" placeholder="Data i godzina" />
-            <span asp-validation-for="Event.DateStart" class="text-danger"></span>
+            <label asp-for="DateStart">Start</label>
+            <input asp-for="DateStart" type="text" class="form-control" id="datetimepicker" placeholder="Data" />
+            <span asp-validation-for="DateStart" class="text-danger"></span>
         </div>
 
         <div class="form-label-group ">
-            <label asp-for="Event.DateEnd">Koniec</label>
-            <input asp-for="Event.DateEnd" type="text" class="form-control" id="datetimepicker2" placeholder="Data i godzina" />
-            <span asp-validation-for="Event.DateEnd" class="text-danger"></span>
+            <label asp-for="DateEnd">Koniec</label>
+            <input asp-for="DateEnd" type="text" class="form-control" id="datetimepicker2" placeholder="Data i godzina" />
+            <span asp-validation-for="DateEnd" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-label-group ">
-        <label asp-for="Event.Place">Miejsce wydarzenia</label>
-        <input asp-for="Event.Place" type="text" class="form-control" placeholder="Miejscowość" />
-        <span asp-validation-for="Event.Place" class="text-danger"></span>
+        <label asp-for="Place">Miejsce wydarzenia</label>
+        <input asp-for="Place" type="text" class="form-control" placeholder="Miejscowość" />
+        <span asp-validation-for="Place" class="text-danger"></span>
     </div>
 
 
