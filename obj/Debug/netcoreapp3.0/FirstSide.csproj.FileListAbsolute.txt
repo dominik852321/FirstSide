@@ -440,4 +440,4 @@ C:\Users\Dominik\source\repos\FirstSide\FirstSide\obj\Debug\netcoreapp3.0\Razor\
 C:\Users\Dominik\source\repos\FirstSide\FirstSide\obj\Debug\netcoreapp3.0\Razor\Views\Club\Details.cshtml.g.cs
 C:\Users\Dominik\source\repos\FirstSide\FirstSide\obj\Debug\netcoreapp3.0\Razor\Views\Club\Edit.cshtml.g.cs
 C:\Users\Dominik\source\repos\FirstSide\FirstSide\obj\Debug\netcoreapp3.0\Razor\Views\Club\Clubs.cshtml.g.cs
-C:\Users\Dominik\source\repos\FirstSide\FirstSide\obj\Debug\netcoreapp3.0\Razor\Views\Restaurant\_SearchRestaurant.cshtml.g.cs
+C:\Users\Dominik\source\repos\FirstSide\FirstSide\obj\Debug\netcoreapp3.0\Razor\Views\Menu\Details.cshtml.g.cs

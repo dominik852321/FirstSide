@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Register";
 }
-    <form asp-action="Register" asp-controller="Account" method="post" class="form-signin col-5 ml-auto mr-auto" role="form">
+    <form asp-action="Register" asp-controller="Account" method="post" class="form-signin col-5 ml-auto mr-auto" role="form" autocomplete="off">
         <div class="text-center mb-4">
             <h1 class="h3 mb-3 font-weight-normal">Rejestracja</h1>
         </div>
@@ -13,13 +13,13 @@
 
         <div class="form-label-group" style="margin-bottom:0.5rem">
             <label asp-for="UserName">Name</label>
-            <input asp-for="UserName" class="form-control" placeholder="User name" required autofocus>
+            <input asp-for="UserName" class="form-control" placeholder="User name" required  >
             <span asp-validation-for="UserName" class="text-danger"></span>
         </div>
 
         <div class="form-label-group" style="margin-bottom:0.5rem">
             <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" placeholder="Email address" required autofocus>
+            <input asp-for="Email" class="form-control" placeholder="Email address" required >
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 

@@ -1,0 +1,37 @@
+﻿@model Menu
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Details";
+    var user = UserManager.GetUserAsync(User);
+
+}
+
+
+<div class="col-12">
+    <p class="display-4 text-center ">Promocje</p>
+
+    @if (Model != null)
+    {
+        <div class="col-6 m-auto text-center">
+            <ul class="list-group ">
+                <li class="list-group-item h6">@Model.Pizza% promotions on Pizza</li>
+                <li class="list-group-item h6">@Model.Foods% promotions on Foods</li>
+                <li class="list-group-item h6">@Model.Drink% promotions on Drinks</li>
+                <li class="list-group-item h6">@Model.Alcohol% promotions on Alcohols</li>
+
+            </ul>
+            @if (SignInManager.IsSignedIn(User) && user.Result.Id == Model.Restaurant.User.Id)
+            {
+                <div class="btn btn-group">
+                    <a class="btn btn-primary mt-2" asp-action="EditMenu" asp-controller="Menu" asp-route-id="@Model.Id">Edit menu</a>
+                    <a class="btn btn-secondary mt-2" asp-action="Details" asp-controller="Restaurant" asp-route-id="@Model.RestaurantId">Wróć</a>
+                </div>
+            }
+        </div>
+    }
+
+</div>

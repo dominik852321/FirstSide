@@ -58,8 +58,10 @@
             </div>
 
             <div class="row col-lg-6">
+
+
                 <div class="col-xl-6">
-                    <p class="h1 text-capitalize text-center ">Informacje</p>
+                    <p class="h3 text-capitalize text-center ">Informacje</p>
                     <div class="text-center">
                         <h5 class="lead">
                             Otwarte od @Model.Open do @Model.Close.
@@ -71,7 +73,7 @@
                     </div>
                 </div>
                 <div class="col-xl-6 ">
-                    <p class="h1 text-capitalize text-center">Wydarzenia</p>
+                    <p class="h3 text-capitalize text-center">Wydarzenia</p>
                     <div class="text-center">
 
                         @if (Model.EventRestaurants.Any())
@@ -99,40 +101,17 @@
                     </div>
                 </div>
 
-                <div class="col-12">
-                    <p class="display-4 text-center border-top p-0">Promocje</p>
-
+                <div class="col-12 text-center">
                     @if (Model.Menu != null)
                     {
-                        <div class="col-6 m-auto">
-                            <ul class="list-group ">
-                                <li class="list-group-item h6">@Model.Menu.Pizza% promotions on Pizza</li>
-                                <li class="list-group-item h6">@Model.Menu.Foods% promotions on Foods</li>
-                                <li class="list-group-item h6">@Model.Menu.Drink% promotions on Drinks</li>
-                                <li class="list-group-item h6">@Model.Menu.Alcohol% promotions on Alcohols</li>
-
-                            </ul>
-                            @if (SignInManager.IsSignedIn(User) && user.Result.UserName == Model.User.UserName)
-                            {
-                                <div class="d-flex justify-content-center">
-                                    <a class="btn btn-primary mt-2" asp-action="EditMenu" asp-controller="Menu" asp-route-id="@Model.Menu.Id">Edit menu</a>
-                                </div>
-                            }
-                        </div>
-
+                        <div class="col-12"> <a class="btn btn-info" asp-action="Details" asp-controller="Menu" asp-route-id="@Model.Id">Przejdz do menu</a></div>
                     }
                     else
                     {
-                        @if (SignInManager.IsSignedIn(User) && user.Result.UserName == Model.User.UserName)
-                        {
-                            <div class="text-center">
-                                <a class="btn btn-primary" asp-action="AddMenu" asp-controller="Menu" asp-route-id="@Model.Id">Add menu</a>
-                            </div>
-                        }
-
+                        <div class="col-12"> <a class="btn btn-info" asp-action="AddMenu" asp-controller="Menu" asp-route-id="@Model.Id">Dodaj meenu</a></div>
                     }
-
                 </div>
+
 
 
             </div>

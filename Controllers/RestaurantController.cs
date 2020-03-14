@@ -1,22 +1,18 @@
 ﻿using FirstSide.Models;
 using FirstSide.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace FirstSide.Controllers
 {
 
-
+    //Problem z tokenami podczas wysyłania pliku ajaxem
     public class RestaurantController : Controller
     {
 

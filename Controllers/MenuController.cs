@@ -22,6 +22,16 @@ namespace FirstSide.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var restaurant = _Repository.GetRestaurant(id);
+
+            return View(restaurant.Menu);
+        }
+
+
+
 
         [HttpGet]
         public IActionResult AddMenu(int id)

@@ -33,7 +33,7 @@
                     <label asp-for="@Model.Drink"></label>
                 </div>
                 <div class="col-9">
-                    <input asp-for="@Model.Drink" class="form-control text-center" placeholder="Drink" >
+                    <input asp-for="@Model.Drink" class="form-control text-center" placeholder="Drink">
                     <span asp-validation-for="@Model.Drink" class="text-danger"></span>
                 </div>
             </div>
@@ -58,10 +58,11 @@
                 </div>
             </div>
 
-            
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-outline-success">Edit menu</button>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-info">Edit menu</button>
+                <a class="btn btn-secondary" asp-action="Details" asp-controller="Menu" asp-route-id="@Model.RestaurantId">Wróć</a>
             </div>
 
         </div>

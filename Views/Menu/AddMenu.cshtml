@@ -5,42 +5,68 @@
 }
 
 <div class="row">
-    <form asp-action="AddMenu" asp-controller="Menu" method="post" class="col-4 mx-auto text-center" autocomplete="off">
+    <form asp-action="AddMenu" asp-controller="Menu" method="post" class="col-5 mx-auto text-center" autocomplete="off">
 
-        <div class="display-4">@Model.RestaurantName</div>
 
-        <input type="hidden" asp-for="@Model.RestaurantId" />
 
-        <div class="form-label-group" style="margin-bottom:0.5rem">
-            <label asp-for="AlcoholPromotions"></label>
-            <input asp-for="AlcoholPromotions" class="form-control" placeholder="Alcohol" >
-            <span asp-validation-for="AlcoholPromotions" class="text-danger"></span>
+        <div class="col-8 mx-auto m-4">
+            <div class="display-4">@Model.RestaurantName</div>
+            <input type="hidden" asp-for="@Model.RestaurantId" />
+
+            <div class="form-group row" style="margin-bottom:0.5rem">
+                <div class="col-lg-3 p-1">
+                    <label asp-for="AlcoholPromotions">Alkohol</label>
+                </div>
+                <div class="col-lg-9">
+                    <input asp-for="AlcoholPromotions" class="form-control text-center" placeholder="Alcohol">
+                    <span asp-validation-for="AlcoholPromotions" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row" style="margin-bottom:0.5rem">
+                <div class="col-lg-3 p-1">
+                    <label asp-for="DrinkPromotions">Drinki</label>
+                </div>
+                <div class="col-lg-9">
+                    <input asp-for="DrinkPromotions" class="form-control text-center" placeholder="Drink">
+                    <span asp-validation-for="DrinkPromotions" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row" style="margin-bottom:0.5rem">
+                <div class="col-lg-3 p-1">
+                    <label asp-for="PizzaPromotions">Pizza</label>
+                </div>
+                <div class="col-lg-9">
+                    <input asp-for="PizzaPromotions" class="form-control text-center" placeholder="Pizza">
+                    <span asp-validation-for="PizzaPromotions" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row" style="margin-bottom:0.5rem">
+                <div class="col-lg-3 p-1">
+                    <label asp-for="FoodPromotions">Jedzenie</label>
+                </div>
+                <div class="col-lg-9 ">
+                    <input asp-for="FoodPromotions" class="form-control text-center" placeholder="Foods">
+                    <span asp-validation-for="FoodPromotions" class="text-danger"></span>
+                </div>
+            </div>
+
+
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Add menu</button>
+                <a class="btn btn-secondary" asp-action="Details" asp-controller="Restaurant" asp-route-id="@Model.RestaurantId">Wróć</a>
+            </div>
+
         </div>
 
-        <div class="form-label-group" style="margin-bottom:0.5rem">
-            <label asp-for="DrinkPromotions"></label>
-            <input asp-for="DrinkPromotions" class="form-control" placeholder="Drink" >
-            <span asp-validation-for="DrinkPromotions" class="text-danger"></span>
-        </div>
 
-        <div class="form-label-group" style="margin-bottom:0.5rem">
-            <label asp-for="PizzaPromotions"></label>
-            <input asp-for="PizzaPromotions" class="form-control" placeholder="Pizza" >
-            <span asp-validation-for="PizzaPromotions" class="text-danger"></span>
-        </div>
-
-        <div class="form-label-group" style="margin-bottom:0.5rem">
-            <label asp-for="FoodPromotions"></label>
-            <input asp-for="FoodPromotions" class="form-control" placeholder="Foods" >
-            <span asp-validation-for="FoodPromotions" class="text-danger"></span>
-        </div>
-
-
-        <div asp-validation-summary="All" class="text-danger"></div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-outline-success">Add menu</button>
-        </div>
+        
 
     </form>
 </div>
+
