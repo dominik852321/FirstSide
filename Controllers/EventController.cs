@@ -1,19 +1,17 @@
 ﻿using FirstSide.Interface;
 using FirstSide.Models;
 using FirstSide.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FirstSide.Controllers
 {
-    [Authorize]
+
     [AutoValidateAntiforgeryToken]
     public class EventController : Controller
     {

@@ -5,15 +5,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace FirstSide.Controllers
 {
 
-   
+
     public class RestaurantController : Controller
     {
 
@@ -30,7 +33,7 @@ namespace FirstSide.Controllers
             _userManager = userManager;
         }
 
-
+        [HttpGet]
         public IActionResult Index()
         {
             var restaurants = _Repository.GetRestaurants();
@@ -38,6 +41,7 @@ namespace FirstSide.Controllers
             {
                 Restaurants = restaurants.ToList()
             };
+
             return View(homeVM);
         }
 
@@ -107,7 +111,7 @@ namespace FirstSide.Controllers
             if (ModelState.IsValid)
             {
                 _Repository.UpdateRestaurant(restaurant);
-                return RedirectToAction("Details", new {id=restaurant.Id});
+                return RedirectToAction("Details", new { id = restaurant.Id });
             }
             return View("Model is not valid");
         }
@@ -124,29 +128,29 @@ namespace FirstSide.Controllers
             var restaurant = _Repository.GetRestaurant(id);
             if (restaurant != null)
             {
-                
+
                 try
                 {
                     long size = 0;
-                var file = Request.Form.Files;
-                var filename = ContentDispositionHeaderValue
-                                .Parse(file[0].ContentDisposition)
+                    var file = Request.Form.Files;
+                    var filename = ContentDispositionHeaderValue
+                                    .Parse(file[0].ContentDisposition)
 
-                                .FileName
+                                    .FileName
 
-                                .Trim('"');
+                                    .Trim('"');
 
-                string uploadsFolder = Path.Combine(_env.WebRootPath, "ImagePhoto");
-                string FilePath = Path.Combine(uploadsFolder + $@"\{ filename}");
-                size += file[0].Length;
-                using (FileStream fs = System.IO.File.Create(FilePath))
-                {
-                    file[0].CopyTo(fs);
-                    fs.Flush();
-                }
+                    string uploadsFolder = Path.Combine(_env.WebRootPath, "ImagePhoto");
+                    string FilePath = Path.Combine(uploadsFolder + $@"\{ filename}");
+                    size += file[0].Length;
+                    using (FileStream fs = System.IO.File.Create(FilePath))
+                    {
+                        file[0].CopyTo(fs);
+                        fs.Flush();
+                    }
                     Photo photo = new Photo
                     {
-                        Club=null,
+                        Club = null,
                         Restaurant = restaurant,
                         Zdjecie = filename
                     };
@@ -222,6 +226,24 @@ namespace FirstSide.Controllers
 
             return RedirectToAction("Index", "Restaurant");
         }
+
+        [HttpGet]
+        public IActionResult SearchRestaurant(string nameRestaurant, string nameCity)
+        {
+
+            ViewBag.CurrentFilterName = nameRestaurant;
+            ViewBag.CurrentFilterCity = nameCity;
+
+            var restaurant = _Repository.SearchData(nameRestaurant,nameCity);
+
+            var homeVM = new HomeVM
+            {
+                Restaurants = restaurant.ToList()
+            };
+
+            return View("Index", homeVM);
+        }
+
 
 
     }

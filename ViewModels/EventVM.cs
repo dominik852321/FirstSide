@@ -1,6 +1,7 @@
 ﻿using FirstSide.Models;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace FirstSide.ViewModels
 {
@@ -12,8 +13,10 @@ namespace FirstSide.ViewModels
         public string Place { get; set; }
         public string Name { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DateStart { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DateEnd { get; set; }
 
         public IFormFile File { get; set; }

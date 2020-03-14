@@ -18,14 +18,11 @@ namespace FirstSide.Models
 
         public IEnumerable<Restaurant> GetRestaurants()
         {
-            var result = _appDbContext.Restaurants.Include(s => s.photo)
-                                                  .Include(s => s.User)
-                                                  .Include(s => s.Menu)
-                                                  .Include(s => s.EventRestaurants);
-                                                 
+            var result = _appDbContext.Restaurants.Include(s => s.User);
+
             return result;
         }
-        
+
 
         public IEnumerable<Photo> GetPhotos(int restaurantid)
         {
@@ -59,22 +56,41 @@ namespace FirstSide.Models
         }
         public ApplicationUser GetUser(string id)
         {
-            var result = _appDbContext.Users.Include(s => s.Restaurants).Include(s=>s.Clubs)
+            var result = _appDbContext.Users.Include(s => s.Restaurants).Include(s => s.Clubs)
                                             .FirstOrDefault(s => s.Id == id);
             return result;
         }
 
+
+        public IEnumerable<Restaurant> SearchData(string nameRestaurant, string nameCity)
+        {
+            var result = from x in _appDbContext.Restaurants.Include(x => x.User) select x;
+
+            if (!string.IsNullOrEmpty(nameRestaurant) && !string.IsNullOrEmpty(nameCity))
+            {
+                result = result.Where(x => x.Name.Contains(nameRestaurant) || x.City.Contains(nameCity));
+            }
+
+            if (!string.IsNullOrEmpty(nameCity))
+            {
+                result = result.Where(x => x.City.Contains(nameCity));
+            }
+
+            if (!string.IsNullOrEmpty(nameRestaurant))
+            {
+                result = result.Where(x => x.Name.Contains(nameRestaurant));
+            }
+
+            return result.AsNoTracking().ToList();
+        }
+
+
+
         public void AddRestaurant(Restaurant model)
         {
-            var RestaurantCount = (from restaurant in _appDbContext.Restaurants
-                                   where restaurant.Name == restaurant.Name
-                                   select restaurant).Count();
-            if (RestaurantCount==0)
-            {
-                _appDbContext.Restaurants.Add(model);
-                _appDbContext.SaveChanges();
-            }
-           
+            _appDbContext.Restaurants.Add(model);
+            _appDbContext.SaveChanges();
+
         }
 
         public void UpdateRestaurant(Restaurant model)
@@ -123,6 +139,6 @@ namespace FirstSide.Models
             _appDbContext.SaveChanges();
         }
 
-       
+
     }
 }

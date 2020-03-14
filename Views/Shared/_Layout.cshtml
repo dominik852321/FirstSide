@@ -22,9 +22,11 @@
             <div class="container">
 
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Strona główna</a>
+                        <li class="form-inline">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Restaurant" asp-action="Index">Restauracje</a>
@@ -51,6 +53,7 @@
                             </li>
 
 
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,11 +65,13 @@
                                 </div>
                             </li>
 
+
+
                             <li class="nav nav-item nav-link dropdown ml-auto">
-                                <a class="fas fa-bars" href="#" id="profile"
+                                <a class="navbar-collapse navbar-toggler-icon" href="#" id="profile"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </a>
-                                <div class="dropdown-menu shadow-lg border" style="background-color:honeydew" aria-labelledby="profile">
+                                <div class="dropdown-menu shadow-lg border" background-color:honeydew aria-labelledby="profile">
                                     <button class="dropdown-item" type="button">Profil</button>
 
                                     <a asp-controller="MyAccount" asp-action="MyRestaurants" class="dropdown-item">Dodane</a>
@@ -76,6 +81,8 @@
                                     </form>
                                 </div>
                             </li>
+
+                            
 
                         }
                         else

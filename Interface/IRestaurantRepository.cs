@@ -6,12 +6,14 @@ namespace FirstSide.Models
     {
         IEnumerable<Restaurant> GetRestaurants();
         IEnumerable<Photo> GetPhotos(int restaurantid);
+        IEnumerable<Restaurant> SearchData(string nameRestaurant, string nameCity);
 
-        
         Restaurant GetRestaurant(int id);
         Menu GetMenu(int id);
         Photo GetPhoto(int id);
         ApplicationUser GetUser(string id);
+
+        
 
         void AddRestaurant(Restaurant model);
         void UpdateRestaurant(Restaurant model);
