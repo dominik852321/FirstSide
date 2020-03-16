@@ -1,7 +1,72 @@
 ﻿@model ClubVM
+
+
 @{
     ViewData["Title"] = "Create";
 }
 
 
 
+<div class="col-sm-4 mx-auto">
+    <form enctype="multipart/form-data" asp-controller="Club" asp-action="Create" method="post"  autocomplete="off">
+
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="Name">Nazwa lokalu</label>
+            <input asp-for="Name" class="form-control" placeholder="Nazwa" required>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-label-group" style="margin-bottom:0.5rem">
+            <label asp-for="City">Miasto</label>
+            <input asp-for="City" class="form-control" placeholder="Miasto" required>
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+
+        <div class="form-group d-md-flex m-1">
+
+            <div class="form-label-group " >
+                <label asp-for="Address">Adres lokalu</label>
+                <input asp-for="Address" class="form-control" placeholder="Ulica">
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-label-group" >
+                <label asp-for="Number">Numer</label>
+                <input asp-for="Number" class="form-control" placeholder="Numer">
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="Photo">Zdjęcie z ulicy</label>
+            <div class="custom-file">
+                <input asp-for="Photo" class="form-control custom-file-input">
+                <label class="custom-file-label overflow-hidden">Wybierz</label>
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Dodaj lokal</button>
+        </div>
+
+    </form>
+
+    @section Scripts {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".custom-file-input").on("change", function () {
+                    var filename = $(this).val().split("\\").pop();
+                    $(this).siblings(".custom-file-label").addClass("selected").html(filename);
+                });
+            });
+
+        </script>
+
+
+    }
+
+</div>

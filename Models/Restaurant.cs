@@ -15,6 +15,14 @@ namespace FirstSide.Models
         public int Open { get; set; }
         public int Close { get; set; }
 
+        public string Address { get; set; }
+        public int Number { get; set; }
+        public int PostCode { get; set; }
+
+        public string Description { get; set; }
+
+
+
         public Menu Menu { get; set; }
         public ApplicationUser User { get; set; }
         public ICollection<Photo> photo { get; set; }

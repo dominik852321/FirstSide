@@ -13,6 +13,13 @@ namespace FirstSide.Models
 
         public string City { get; set; }
 
+        public string Address { get; set; }
+
+        public int Number { get; set; }
+        public int PostCode { get; set; }
+
+
+        public string Description { get; set; }
         public string UserId { get; set; }
 
         public string ZdjecieUrl { get; set; }

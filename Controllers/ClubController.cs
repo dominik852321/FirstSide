@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FirstSide.Interface;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FirstSide.Controllers
 {
+    //dodać tokeny
     public class ClubController : Controller
     {
         private readonly IWebHostEnvironment _env;
@@ -38,6 +40,47 @@ namespace FirstSide.Controllers
                 Clubs = clubs.ToList(),
             };
             return View(homeVM);
+        }
+        //zaraz skończe
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(ClubVM model)
+        {
+            if(ModelState.IsValid)
+            {
+                string uniqueFileName = null;
+                var user = _userManager.GetUserAsync(HttpContext.User);
+
+                if (model.Photo != null)
+                {
+                    string uploadsFolder = Path.Combine(_env.WebRootPath, "ImageClub");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+
+                var club = new Club
+                {
+                    Name = model.Name,
+                    City = model.City,
+                    Address = model.Address,
+                    Number = model.Number,
+                    User = user.Result,
+                    ZdjecieUrl = uniqueFileName
+                };
+
+                _RepositoryClub.AddClub(club);
+
+                return RedirectToAction(nameof(Clubs));
+            }
+            return View(model);
+        }
+
+
     }
-}
 }

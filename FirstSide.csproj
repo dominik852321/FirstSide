@@ -28,10 +28,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\ImagePhoto\" />
-    <Folder Include="wwwroot\ImageRestaurant\" />
-    <Folder Include="wwwroot\ImageEvent\" />
-  </ItemGroup>
-
 </Project>

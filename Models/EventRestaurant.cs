@@ -21,6 +21,7 @@ namespace FirstSide.Models
         public DateTime DateEnd { get; set; }
 
         public int People { get; set; }
+        public string Description { get; set; }
 
         public string Place { get; set; }
 

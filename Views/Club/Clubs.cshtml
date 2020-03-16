@@ -1,8 +1,15 @@
 ﻿@model HomeVM
 
 @{
-    ViewData["Title"] = "Clubs";
+    ViewData["Title"] = "Lokale";
 }
 
-<h1>Clubs</h1>
+
+
+@if(Model.Clubs!=null)
+{
+    <div class="row" id="clubs">
+        <partial name="_Clubs" model="Model.Clubs">
+    </div>
+}
 

@@ -20,6 +20,8 @@ namespace FirstSide.Models
         [DataType(DataType.Date)]
         public DateTime DateEnd { get; set; }
 
+        public string Description { get; set; }
+
         public int People { get; set; }
 
         public string Place { get; set; }

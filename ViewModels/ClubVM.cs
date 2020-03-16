@@ -12,6 +12,9 @@ namespace FirstSide.ViewModels
 
         public string City { get; set; }
         
-        public IFormFile Formfile { get; set; }
+        public string Address { get; set; }
+        public IFormFile Photo { get; set; }
+
+        public int Number { get; set; }
     }
 }

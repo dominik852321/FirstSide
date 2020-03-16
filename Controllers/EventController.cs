@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace FirstSide.Controllers
 {
 
-    [AutoValidateAntiforgeryToken]
+    //dodać tokeny na końcu
     public class EventController : Controller
     {
 
@@ -84,7 +84,7 @@ namespace FirstSide.Controllers
                 _RepositoryEvent.AddEventRestaurant(newEvent);
                 _RepositoryRestaurant.UpdateRestaurant(restaurant);
 
-                return RedirectToAction("Successful");
+                return RedirectToAction(nameof(Events));
             }
 
             return View();

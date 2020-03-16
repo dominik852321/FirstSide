@@ -3,13 +3,13 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @{
-    ViewData["Title"] = "Events";
+    ViewData["Title"] = "Wydarzenia";
 }
 
 <div class="row">
     @foreach (var events in Model.EventRestaurant)
     {
-        var photoPath = "~/ImageEvent/" + (events.PhotoUrl);
+        var photoPath = "~/ImageEvent/" + (events.PhotoUrl ?? "noImage.jpg");
 
         <div class="col-xl-3 col-lg-4 col-sm-6 p-1  border-info ">
             <div class="card " id="restauracje">

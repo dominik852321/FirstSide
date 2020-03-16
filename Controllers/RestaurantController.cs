@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -74,7 +76,7 @@ namespace FirstSide.Controllers
                 };
 
                 _Repository.AddRestaurant(restaurant);
-                return RedirectToAction("Successful");
+                return RedirectToAction(nameof(Index));
             }
 
             return View("Model is not valid");
@@ -136,7 +138,7 @@ namespace FirstSide.Controllers
 
                                     .Trim('"');
 
-                    string uploadsFolder = Path.Combine(_env.WebRootPath, "ImagePhoto");
+                    string uploadsFolder = Path.Combine(_env.WebRootPath, "ImageRestaurant");
                     string FilePath = Path.Combine(uploadsFolder + $@"\{ filename}");
                     size += file[0].Length;
                     using (FileStream fs = System.IO.File.Create(FilePath))
@@ -178,7 +180,7 @@ namespace FirstSide.Controllers
                 _Repository.RemovePhoto(id);
                 _Repository.UpdateRestaurant(restaurant);
 
-                var deleteEnv = Path.Combine(_env.WebRootPath, "ImagePhoto", photo.Zdjecie);
+                var deleteEnv = Path.Combine(_env.WebRootPath, "ImageRestaurant", photo.Zdjecie);
                 FileInfo file = new FileInfo(deleteEnv);
                 if (file != null)
                 {
@@ -211,7 +213,7 @@ namespace FirstSide.Controllers
 
             _Repository.RemovePhotos(Photos);
 
-            var deleteEnv1 = Path.Combine(_env.WebRootPath, "ImagePhoto", Photos.ToString());
+            var deleteEnv1 = Path.Combine(_env.WebRootPath, "ImageRestaurant", Photos.ToString());
 
             FileInfo file1 = new FileInfo(deleteEnv1);
             if (file1 != null)
@@ -223,25 +225,22 @@ namespace FirstSide.Controllers
             return RedirectToAction("Index", "Restaurant");
         }
 
-        [HttpGet]
-        public IActionResult SearchRestaurant(string nameRestaurant, string nameCity)
+        [HttpPost]
+        public IActionResult SearchRestaurant(string CurrentFilterName, string CurrentFilterCity)
         {
 
-            ViewBag.CurrentFilterName = nameRestaurant;
-            ViewBag.CurrentFilterCity = nameCity;
+            ViewBag.CurrentFilterName = CurrentFilterName;
+            ViewBag.CurrentFilterCity = CurrentFilterCity;
 
-            var restaurant = _Repository.SearchData(nameRestaurant,nameCity);
+            var restaurant = _Repository.SearchData(CurrentFilterName, CurrentFilterCity);
 
             var homeVM = new HomeVM
             {
                 Restaurants = restaurant.ToList()
             };
 
-            return View("Index", homeVM);
+            return PartialView("_Restaurants", homeVM.Restaurants);
         }
-
-
-
     }
 
 

@@ -7,38 +7,34 @@
 
 
 
-@foreach (var x in Model)
-{
-    var pht = "~/ImageRestaurant/" + (x.ZdjecieUrl);
 
-    <div class="col-xl-3 col-lg-4 col-sm-6" id="@x.Id">
-        <div class="col-12 mx-auto m-3 shadow-sm border rounded p-0" id="restauracje">
+    @foreach (var x in Model)
+    {
+        var pht = "~/ImageRestaurant/" + (x.ZdjecieUrl ?? "noImage.jpg");
 
-
-            <p class="font-weight-bolder text-center ">@x.Name</p>
+        <div class="col-xl-3 col-lg-4 col-sm-6" id="@x.Id">
+            <div class="col-12 mx-auto m-3 shadow-sm border rounded p-0" id="restauracje">
 
 
-
-            <a asp-controller="Restaurant" asp-action="Details" asp-route-id="@x.Id" >
-                <img src="@pht" asp-append-version="true" class="rounded border w-100" height="150" />
-            </a>
+                <p class="font-weight-bolder text-center ">@x.Name</p>
 
 
 
-            <div class="row d-flex justify-content-between p-3">
-                <h6 class="">@x.City</h6>
-                <h6 class="">@x.User.UserName</h6>
+                <a asp-controller="Restaurant" asp-action="Details" asp-route-id="@x.Id">
+                    <img src="@pht" asp-append-version="true" class="rounded border w-100" height="150" />
+                </a>
+
+
+
+                <div class="row d-flex justify-content-between p-3">
+                    <h6 class="">@x.City</h6>
+                    <h6 class="">@x.User.UserName</h6>
+                </div>
+
             </div>
-
-
-
-            
-
-
-
         </div>
-    </div>
-}
+    }
+
 
 
 
