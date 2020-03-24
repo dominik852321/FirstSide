@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FirstSide.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace FirstSide.ViewModels
 {
     public class ClubVM
     {
+       
+
         public string Name { get; set; }
 
         public string City { get; set; }

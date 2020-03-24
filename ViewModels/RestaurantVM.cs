@@ -6,6 +6,7 @@ namespace FirstSide.ViewModels
 {
     public class RestaurantVM
     {
+       
 
         public IFormFile PhotoFile { get; set; }
 

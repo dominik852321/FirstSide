@@ -4,26 +4,17 @@
 {
     var photo = "~/ImageClub/" + (club.ZdjecieUrl ?? "noImage.jpg");
 
-    <div class="col-xl-3 col-lg-4 col-sm-6">
-        <div class="card mb-3 box-shadow">
+    <div class="col-lg-4  col-sm-6" >
+        <div class="card mb-3 box-shadow" id="restauracje">
             <div class="card-title text-center">@club.Name</div>
             <div class="card-img-top">
-                <img src="@photo" asp-append-version="true" class="rounded border w-100" height="150" />
+                <img src="@photo" asp-append-version="true" class="rounded border w-100" id="img" />
             </div>
             <div class="card-body p-2">
                 <div class="d-flex justify-content-between mb-2">
                     <a>@club.City<small class="text-muted"> Ul. @club.Address @club.Number</small></a>
                 </div>
-                <div class="text-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-info">View</button>
-                        <button type="button" class="btn btn-outline-secondary">Edit</button>
-                    </div>
-
-                </div>
             </div>
         </div>
-
-
     </div>
 }

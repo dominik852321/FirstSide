@@ -1,15 +1,15 @@
-﻿using FirstSide.Models;
+﻿using FirstSide.Interface;
+using FirstSide.Models;
 using FirstSide.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace FirstSide.Controllers
 {
@@ -35,12 +35,8 @@ namespace FirstSide.Controllers
         public IActionResult Index()
         {
             var restaurants = _Repository.GetRestaurants();
-            var homeVM = new HomeVM()
-            {
-                Restaurants = restaurants.ToList()
-            };
-
-            return View(homeVM);
+            
+            return View(restaurants.ToList());
         }
 
 
@@ -52,7 +48,7 @@ namespace FirstSide.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(RestaurantVM model)
+        public async Task<IActionResult> Create(RestaurantVM model)
         {
             if (ModelState.IsValid && model.Name.Length != 0)
             {
@@ -64,7 +60,7 @@ namespace FirstSide.Controllers
                     string uploadsFolder = Path.Combine(_env.WebRootPath, "ImageRestaurant");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + model.PhotoFile.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.PhotoFile.CopyTo(new FileStream(filePath, FileMode.Create));
+                    await model.PhotoFile.CopyToAsync(new FileStream(filePath, FileMode.Create));
                 }
 
                 Restaurant restaurant = new Restaurant
@@ -82,14 +78,16 @@ namespace FirstSide.Controllers
             return View("Model is not valid");
         }
 
+
+
+
+
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var restaurant = _Repository.GetRestaurant(id);
+            var restaurant = _Repository.GetRestaurantAndUpdateVisitators(id);
             return View(restaurant);
         }
-
-
 
         [HttpGet]
         public IActionResult Edit(int id)
@@ -234,13 +232,18 @@ namespace FirstSide.Controllers
 
             var restaurant = _Repository.SearchData(CurrentFilterName, CurrentFilterCity);
 
-            var homeVM = new HomeVM
-            {
-                Restaurants = restaurant.ToList()
-            };
-
-            return PartialView("_Restaurants", homeVM.Restaurants);
+            return PartialView("_Restaurants", restaurant.ToList());
         }
+
+        [HttpPost]
+        public IActionResult SortedRestaurant(int WhichSort)
+        {
+            var restaurant= _Repository.SortedBy(WhichSort);
+            return PartialView("_Restaurants", restaurant.ToList());
+        }
+
+
+
     }
 
 

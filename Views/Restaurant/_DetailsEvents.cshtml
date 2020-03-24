@@ -1,0 +1,25 @@
+﻿@model EventRestaurant
+
+
+@{
+    var photo = "~/ImageEvent/" + (Model.PhotoUrl ?? "noImage.jpg");
+}
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-title text-center m-0"> @Model.DateStart.ToString("d MMMM")</div>
+        <img class="card-img-top" src="@photo" asp-append-version="true" height="100" />
+        <div class="card-body p-1">
+            <h3 class="lead text-center">@Model.EventName</h3>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

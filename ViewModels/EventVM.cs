@@ -1,5 +1,4 @@
-﻿using FirstSide.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,9 +6,9 @@ namespace FirstSide.ViewModels
 {
     public class EventVM
     {
-        public int RestaurantId { get; set; }
        
 
+        public int RestaurantId { get; set; }
         public string Place { get; set; }
         public string Name { get; set; }
 

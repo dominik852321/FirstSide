@@ -1,0 +1,60 @@
+﻿@model Club
+
+@{
+    ViewData["Title"] = "MyClub";
+    var photo = "~/ImageClub/" + (Model.ZdjecieUrl ?? "noImage.jpg");
+}
+
+<div class="col-md-10 mx-auto" id="tło">
+    <div class="row">
+
+        <div class="col-md-6 text-center p-3">
+            <a class="display-4">@Model.Name</a>
+            <img src="@photo" asp-append-version="true" class="rounded w-100" />
+        </div>
+        <div class="col-md-6 p-3">
+            <div class="text-center">
+                <p class="text-capitalize text-center h4">Informacje</p>
+
+                <h5 class="lead">
+                    Otwarte od  do 
+                </h5>
+                <h3 class="lead">
+                    @Model.Description
+                </h3>
+
+
+
+
+
+                <a class="btn btn-outline-primary" asp-action="EditDetailsClub" asp-controller="Club" asp-route-id="@Model.Id">Edytuj informacje</a>
+                <a class="btn btn-outline-info" asp-action="AddParty" asp-controller="Event" asp-route-id="@Model.Id">Dodaj wydarzenie</a>
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#DeleteRest">Usuń</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="DeleteRest" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="modal-title">Czy napewno chcesz usunąć restaurację ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <div class="mx-auto row">
+                        <form asp-action="DeleteClub" asp-controller="Club" asp-route-id="@Model.Id" method="post">
+                            <button class="btn btn-outline-info">Tak</button>
+                        </form>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Nie</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

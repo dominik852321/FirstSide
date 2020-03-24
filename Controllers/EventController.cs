@@ -19,16 +19,16 @@ namespace FirstSide.Controllers
         private readonly IWebHostEnvironment _env;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEventRepository _RepositoryEvent;
-        private readonly IRestaurantRepository _RepositoryRestaurant;
 
 
-        public EventController(IEventRepository repo, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, IRestaurantRepository repo2)
+
+        public EventController(IEventRepository repo, IWebHostEnvironment env, UserManager<ApplicationUser> userManager)
         {
             _env = env;
             _userManager = userManager;
             _RepositoryEvent = repo;
-            _RepositoryRestaurant = repo2;
-         
+
+
         }
 
         [HttpGet]
@@ -42,47 +42,58 @@ namespace FirstSide.Controllers
             return View(homeVM);
         }
 
+        [HttpGet]
+        public IActionResult Party()
+        {
+            var events = _RepositoryEvent.GetEventClubs();
+            var homeVM = new HomeVM()
+            {
+                EventClubs = events.ToList()
+            };
+
+            return View(homeVM);
+        }
+
+
 
         [HttpGet]
         public IActionResult AddEvent(int id)
         {
-            var restaurant = _RepositoryRestaurant.GetRestaurant(id);
             var NewEvent = new EventVM
             {
-                RestaurantId=restaurant.Id
+                RestaurantId = id
             };
             return View(NewEvent);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> AddEvent(EventVM model)
         {
             if (ModelState.IsValid)
             {
-                var restaurant = _RepositoryRestaurant.GetRestaurant(model.RestaurantId);
+                var restaurant = _RepositoryEvent.GetRestaurant(model.RestaurantId);
                 string uniqueFileName = null;
-             
-                var user = await _userManager.GetUserAsync(HttpContext.User);
+
 
                 if (model.File != null)
                 {
                     string uploadsFolder = Path.Combine(_env.WebRootPath, "ImageEvent");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.File.CopyTo(new FileStream(filePath, FileMode.Create));
+                    await model.File.CopyToAsync(new FileStream(filePath, FileMode.Create));
                 }
 
-                 EventRestaurant newEvent = new EventRestaurant
+                EventRestaurant newEvent = new EventRestaurant
                 {
                     EventName = model.Name,
                     DateStart = model.DateStart,
-                    DateEnd= model.DateEnd,
+                    DateEnd = model.DateEnd,
                     PhotoUrl = uniqueFileName,
-                    Place= model.Place,
-                    Restaurant=restaurant
+                    Place = model.Place,
+                    Restaurant = restaurant
                 };
                 _RepositoryEvent.AddEventRestaurant(newEvent);
-                _RepositoryRestaurant.UpdateRestaurant(restaurant);
 
                 return RedirectToAction(nameof(Events));
             }
@@ -91,10 +102,54 @@ namespace FirstSide.Controllers
         }
 
         [HttpGet]
-        public IActionResult Successful()
+        public IActionResult AddParty(int id)
         {
+            if (id>0)
+            {
+                var eventParty = new EventPartyVM
+                {
+                    ClubId = id
+                };
+                return View(eventParty);
+            }
+            return View("Not found");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddParty(EventPartyVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                string uniqueFileName = null;
+                var club = _RepositoryEvent.GetClub(model.ClubId);
+
+                if (model.File != null)
+                {
+                    string uploadsFolder = Path.Combine(_env.WebRootPath, "ImageEvent");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    await model.File.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                }
+
+                EventClub eventClub = new EventClub
+                {
+                    EventName = model.Name,
+                    DateStart = model.TimeStart,
+                    DateEnd = model.TimeEnd,
+                    Club = club,
+                    Place = club.Address,
+                    PhotoUrl = uniqueFileName
+                };
+
+                _RepositoryEvent.AddEventClub(eventClub);
+                return RedirectToAction(nameof(Party));
+            }
             return View();
         }
+
+
+
 
     }
 }

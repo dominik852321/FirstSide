@@ -41,7 +41,7 @@ namespace FirstSide.Controllers
             };
             return View(homeVM);
         }
-        //zaraz skończe
+        
         [HttpGet]
         public IActionResult Create()
         {
@@ -49,7 +49,7 @@ namespace FirstSide.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ClubVM model)
+        public async Task<IActionResult> Create(ClubVM model)
         {
             if(ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace FirstSide.Controllers
                     string uploadsFolder = Path.Combine(_env.WebRootPath, "ImageClub");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                    await model.Photo.CopyToAsync(new FileStream(filePath, FileMode.Create));
                 }
 
                 var club = new Club
@@ -80,6 +80,23 @@ namespace FirstSide.Controllers
             }
             return View(model);
         }
+
+        [HttpPost]
+        public IActionResult SearchClub(string ClubName, string ClubCity)
+        {
+            ViewBag.ClubName = ClubName;
+            ViewBag.ClubCity = ClubCity;
+
+            var Club = _RepositoryClub.SearchClub(ClubName, ClubCity);
+
+            var homeVM = new HomeVM
+            {
+                Clubs = Club.ToList()
+            };
+            return PartialView("_Clubs",homeVM.Clubs);
+        }
+
+       
 
 
     }

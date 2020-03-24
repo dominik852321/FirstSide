@@ -439,8 +439,14 @@
       "provider": "unpkg",
       "library": "jquery-ajax-unobtrusive@3.2.6",
       "destination": "wwwroot/lib/jquery-ajax-unobtrusive/",
-      "files": [ "dist/jquery.unobtrusive-ajax.js", "dist/jquery.unobtrusive-ajax.min.js" ]
+      "files": [
+        "dist/jquery.unobtrusive-ajax.js",
+        "dist/jquery.unobtrusive-ajax.min.js"
+      ]
+    },
+    {
+      "library": "mdbootstrap@4.14.1",
+      "destination": "wwwroot/lib/mdbootstrap/"
     }
-    
   ]
 }

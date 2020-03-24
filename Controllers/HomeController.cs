@@ -1,4 +1,5 @@
-﻿using FirstSide.Models;
+﻿using FirstSide.Interface;
+using FirstSide.Models;
 using FirstSide.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

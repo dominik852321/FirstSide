@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FirstSide.Interface;
+using FirstSide.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FirstSide.Models
+
+namespace FirstSide.Repository
 {
 
     public class RestaurantRepository : IRestaurantRepository
@@ -18,7 +21,7 @@ namespace FirstSide.Models
 
         public IEnumerable<Restaurant> GetRestaurants()
         {
-            var result = _appDbContext.Restaurants.Include(s => s.User);
+            var result = _appDbContext.Restaurants;
 
             return result;
         }
@@ -39,6 +42,17 @@ namespace FirstSide.Models
                                                   .Include(s => s.EventRestaurants)
                                                   .FirstOrDefault(s => s.Id == id);
             return result;
+        }
+
+        public Restaurant GetRestaurantAndUpdateVisitators(int id)
+        {
+            var result = _appDbContext.Restaurants.Include(s => s.photo)
+                                                  .Include(s => s.Menu)
+                                                  .Include(s => s.EventRestaurants)
+                                                  .FirstOrDefault(s => s.Id == id);
+            result.Visitators++;
+            UpdateRestaurant(result);
+            return result;    
         }
 
 
@@ -84,6 +98,26 @@ namespace FirstSide.Models
             return result.AsNoTracking().ToList();
         }
 
+        public IEnumerable<Restaurant> SortedBy(int WhichSort)
+        {
+            var result = from x in _appDbContext.Restaurants select x;
+
+            switch(WhichSort)
+            {
+                case 1:
+                    result = result.OrderByDescending(s => s.Visitators);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    result = result.OrderByDescending(s => s.EventRestaurants.Count());
+                    break;
+                default:
+                    break;
+            }
+            return result.AsNoTracking().ToList();
+        }
+
 
 
         public void AddRestaurant(Restaurant model)
@@ -97,7 +131,7 @@ namespace FirstSide.Models
         {
 
             _appDbContext.Restaurants.Update(model);
-            _appDbContext.SaveChanges();
+            _appDbContext.SaveChangesAsync();
         }
 
         public void RemoveRestaurant(int Id)
@@ -139,6 +173,6 @@ namespace FirstSide.Models
             _appDbContext.SaveChanges();
         }
 
-
+        
     }
 }

@@ -1,0 +1,34 @@
+﻿@model HomeVM
+
+@{
+    ViewData["Title"] = "Imprezy";
+}
+
+<div class="row">
+    @foreach (var x in Model.EventClubs)
+    {
+        var photoPath = "~/ImageEvent/" + (x.PhotoUrl ?? "noImage.jpg");
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <img class="card-img-top w-100" id="img" src="@photoPath" asp-append-version="true">
+                <div class="card-body p-2">
+                    <div class="d-flex justify-content-between">
+                        <a >@x.EventName</a>
+                        <a >@x.DateStart.ToString("d MMMM")</a>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center">
+
+                        @if (x.HowManyYet() == 0)
+                        {
+                            <small class="text-muted  m-1">Dzisiaj</small>
+                        }
+                        else
+                        {
+                            <small class="text-muted  m-1">@x.HowManyYet() Dni</small>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

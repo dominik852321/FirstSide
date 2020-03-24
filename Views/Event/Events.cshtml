@@ -11,90 +11,35 @@
     {
         var photoPath = "~/ImageEvent/" + (events.PhotoUrl ?? "noImage.jpg");
 
-        <div class="col-xl-3 col-lg-4 col-sm-6 p-1  border-info ">
-            <div class="card " id="restauracje">
-
-                <div class="card-img-top">
-                    <div data-toggle="modal" data-target="#model-@events.Id" style="cursor:pointer"><img src="@photoPath" asp-append-version="true" class="rounded border w-100" height="150" /></div>
-                </div>
-
-
-                <div class="card-body p-2">
-                    <h5 class="text-center">@events.EventName</h5>
-                    <div class="mx-auto">
-                        <h6 class="text-muted text-center">@events.DateStart.ToLongDateString()</h6>
-
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div data-toggle="modal" data-target="#model-@events.Id" style="cursor:pointer"><img src="@photoPath" asp-append-version="true" class="rounded border w-100" id="img" /></div>
+                <div class="card-body py-2">
+                    <div class="d-flex justify-content-between">
+                        <a>@events.EventName</a>
+                        <a>@events.DateStart.ToString("d MMMM")</a>
                     </div>
-                    <h6 class="text-center">@events.Place</h6>
-                    <div class="text-center">
-                        @if (SignInManager.IsSignedIn(User))
+
+                    <div class="text-right">
+                        @if (events.HowManyYet() == 0)
                         {
-
-                            <button type="button" class="btn btn-outline-info ">Wezmę udział</button>
-
-
+                            <small class="text-muted  m-1">Dzisiaj</small>
                         }
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-        <div class="modal fade" id="model-@events.Id" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body row p-1">
-                        <div class="col-12 ">
-                            <button type="button" class="close mx-2" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true" style="font-size:25px">x</span>
-                            </button>
-                        </div>
-                        <div class="col-lg-6">
-                            <img src="@photoPath" asp-append-version="true" class="rounded shadow-sm w-100 " height="250" />
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="text-center mb-3">
-                                <a class="h3 text-muted">@events.EventName</a>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 text-center">
-                                    <h6>
-                                        Data wydarzenia
-                                    </h6>
-                                    <span class="lead">@events.DateStart.ToShortDateString()</span>
-                                </div>
-                                <div class="col-lg-6 text-center">
-                                    <h6>
-                                        Miejsce wydarzenia
-                                    </h6>
-                                    <span class="lead">@events.Place</span>
-                                </div>
-                            </div>
-                            <h6>Organizowane przez:</h6>
-
-
-                            <a class="lead">@events.Restaurant.Name</a>
-
-
-
-
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary">Zainteresowany</button>
-                            </div>
-
-                        </div>
-
+                        else
+                        {
+                            <small class="text-muted  m-1">@events.HowManyYet() Dni</small>
+                        }
 
 
                     </div>
 
+
                 </div>
             </div>
         </div>
-
     }
 </div>
+
+
+
 

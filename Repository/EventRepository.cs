@@ -1,5 +1,4 @@
-﻿
-using FirstSide.Interface;
+﻿using FirstSide.Interface;
 using FirstSide.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -24,6 +23,17 @@ namespace FirstSide.Repository
         public IEnumerable<EventClub> GetEventClubs()
         {
             var result = _appDbContext.EventClubs.Include(s => s.Club);
+            return result;
+        }
+        public Club GetClub(int id)
+        {
+            var result = _appDbContext.Clubs.FirstOrDefault(s => s.Id == id);
+            return result;
+        }
+
+        public Restaurant GetRestaurant(int id)
+        {
+            var result = _appDbContext.Restaurants.FirstOrDefault(s => s.Id == id);
             return result;
         }
 
@@ -82,5 +92,7 @@ namespace FirstSide.Repository
             _appDbContext.EventClubs.Update(model);
             _appDbContext.SaveChanges();
         }
+
+       
     }
 }

@@ -1,10 +1,8 @@
 ﻿using FirstSide.Interface;
 using FirstSide.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FirstSide.Repository
 {
@@ -29,7 +27,24 @@ namespace FirstSide.Repository
             var result = _appDbContext.Photos.Where(s => s.ClubId == clubId).ToList();
             return result;
         }
+        public IEnumerable<Club> SearchClub(string ClubName, string ClubCity)
+        {
+            var result = from x in _appDbContext.Clubs select x;
 
+            if(!string.IsNullOrEmpty(ClubName) && !string.IsNullOrEmpty(ClubCity))
+            {
+                result = result.Where(x => x.Name.Contains(ClubName) || x.City.Contains(ClubCity));
+            }
+            if(!string.IsNullOrEmpty(ClubName))
+            {
+                result = result.Where(x => x.Name.Contains(ClubName));
+            }
+            if(!string.IsNullOrEmpty(ClubCity))
+            {
+                result = result.Where(x => x.City.Contains(ClubCity));
+            }
+            return result.AsNoTracking().ToList();
+        }
 
 
         public Club GetClub(int id)
@@ -94,8 +109,6 @@ namespace FirstSide.Repository
             _appDbContext.SaveChanges();
         }
 
-
-
-
+        
     }
 }

@@ -8,32 +8,34 @@
 
 
 
-    @foreach (var x in Model)
-    {
-        var pht = "~/ImageRestaurant/" + (x.ZdjecieUrl ?? "noImage.jpg");
+@foreach (var x in Model)
+{
+    var pht = "~/ImageRestaurant/" + (x.ZdjecieUrl ?? "noImage.jpg");
 
-        <div class="col-xl-3 col-lg-4 col-sm-6" id="@x.Id">
-            <div class="col-12 mx-auto m-3 shadow-sm border rounded p-0" id="restauracje">
+    <div class="col-xl-4 col-sm-6 " id="@x.Id">
+        <div class="col-12 mx-auto mb-3 shadow-sm border rounded p-0" id="restauracje">
 
+            <p class="font-weight-bolder text-center m-1">@x.Name</p>
+            <a asp-controller="Restaurant" asp-action="Details" asp-route-id="@x.Id">
+                <img src="@pht" asp-append-version="true" class="rounded border w-100" id="img" />
+            </a>
 
-                <p class="font-weight-bolder text-center ">@x.Name</p>
-
-
-
-                <a asp-controller="Restaurant" asp-action="Details" asp-route-id="@x.Id">
-                    <img src="@pht" asp-append-version="true" class="rounded border w-100" height="150" />
-                </a>
-
-
-
-                <div class="row d-flex justify-content-between p-3">
-                    <h6 class="">@x.City</h6>
-                    <h6 class="">@x.User.UserName</h6>
-                </div>
+            <div class="row d-flex justify-content-between p-1 m-0">
+                <h6>@x.City <a class="font-weight-light">Ul.@x.Address</a></h6>
+                @if (x.IsOpen() == true)
+                {
+                    <h6 style="color:green" >Otwarte</h6>
+                }
+                else
+                {
+                    <h6 style="color:firebrick">Zamknięte</h6>
+                }
 
             </div>
+
         </div>
-    }
+    </div>
+}
 
 
 

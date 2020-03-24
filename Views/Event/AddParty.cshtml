@@ -1,0 +1,77 @@
+﻿@model EventPartyVM
+
+@{
+    ViewData["Title"] = "Dodaj wydarzenie";
+}
+
+<link href="~/lib/jquery-datetimepicker/jquery.datetimepicker.css" rel="stylesheet" />
+
+<div class="col-md-4 mx-auto">
+
+   <form enctype="multipart/form-data" asp-controller="Event" asp-action="AddParty" method="post" autocomplete="off">
+
+        <input type="hidden" asp-for="ClubId" />
+
+        <div class="form-control-label mb-sm-2">
+            <label asp-for="Name">Nazwa wydarzenia</label>
+            <input asp-for="Name" class="form-control" placeholder="Wydarzenie" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-control-label mb-sm-2">
+            <label asp-for="TimeStart">Data rozpoczęcia</label>
+            <input asp-for="TimeStart" type="text" class="datepicker form-control" value="Data rozpoczęcia" />
+            <span asp-validation-for="TimeStart" class="text-danger"></span>
+        </div>
+
+        <div class="form-control-label mb-sm-2">
+            <label asp-for="TimeEnd">Zakończenie</label>
+            <input asp-for="TimeEnd" type="text" class="datepicker form-control" value="Data zakończenia" />
+            <span asp-validation-for="TimeEnd" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-label-group">
+            <label asp-for="File">Zdjęcie</label>
+            <div class="custom-file">
+                <input asp-for="File" class="form-control custom-file-input">
+                <label class="custom-file-label overflow-hidden">Wybierz zdjęcie</label>
+            </div>
+            <span asp-validation-for="File" class="text-danger"></span>
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary ">Dodaj wydarzenie</button>
+        </div>
+
+
+
+
+    </form>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/lib/jquery-datetimepicker/jquery.datetimepicker.full.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".datepicker").datetimepicker({
+            });
+
+            $(".custom-file-input").on("change", function () {
+                var filename = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(filename);
+            });
+
+            function getToday(date) {
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear().toString().slice(2);
+                return day + '-' + month + '-' + year;
+            }
+        });
+    </script>
+}

@@ -85,6 +85,24 @@ namespace FirstSide.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9bb2579f-ee3b-4213-8280-d2b24a2838d3",
+                            Email = "domin@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DOMIN@GMAIL.COM",
+                            NormalizedUserName = "DOMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHX728b71d6NI/mKTo4VyMwBpyhGqXKuWKcd2SPLDGb4gAdP/MTjFF7k+fxZVRNb5A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0a8b2f3a-0f04-4b59-9834-9ae0a38030db",
+                            TwoFactorEnabled = false,
+                            UserName = "Domin"
+                        });
                 });
 
             modelBuilder.Entity("FirstSide.Models.Club", b =>
@@ -114,6 +132,9 @@ namespace FirstSide.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Visitators")
+                        .HasColumnType("int");
 
                     b.Property<string>("ZdjecieUrl")
                         .HasColumnType("nvarchar(max)");
@@ -292,6 +313,9 @@ namespace FirstSide.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Visitators")
+                        .HasColumnType("int");
+
                     b.Property<string>("ZdjecieUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -327,6 +351,15 @@ namespace FirstSide.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2301D884-221A-4E7D-B509-0113DCC043E1",
+                            ConcurrencyStamp = "a81f9d37-16cc-4d58-85e5-8d183a500744",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -412,6 +445,13 @@ namespace FirstSide.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
+                            RoleId = "2301D884-221A-4E7D-B509-0113DCC043E1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

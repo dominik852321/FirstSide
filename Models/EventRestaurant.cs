@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,9 +18,16 @@ namespace FirstSide.Models
         [DataType(DataType.Date)]
         public DateTime DateStart { get; set; }
 
+        public int HowManyYet()
+        {
+            var HowMany = DateStart.DayOfYear - DateTime.Now.DayOfYear;
+            return HowMany;
+        }
+
         [DataType(DataType.Date)]
         public DateTime DateEnd { get; set; }
 
+        //zrobić liste ludzi zainteresowanych
         public int People { get; set; }
         public string Description { get; set; }
 

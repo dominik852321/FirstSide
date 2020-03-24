@@ -1,0 +1,53 @@
+﻿@model HomeVM
+
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Dodane";
+    var user = UserManager.GetUserAsync(User);
+}
+
+<div class="row d-flex justify-content-between">
+    <div class="col-lg-5">
+        <div class="display-4">
+            Restauracje
+        </div>
+        <div class="list-group">
+            @if (Model.Restaurants != null)
+            {
+                @foreach (var restaurants in Model.Restaurants)
+                {
+                    var photoPath = "~/ImageRestaurant/" + (restaurants.ZdjecieUrl ?? "noImage.jpg");
+                    <div class="list-group-item d-flex justify-content-between align-items-center mb-2 p-1">
+                        <img src="@photoPath" asp-append-version="true" class="rounded-circle" width="50" height="50"/>
+                        <a>@restaurants.Name</a>
+                        <a class="btn btn-info" asp-action="DetailsRestaurant" asp-controller="MyAccount" asp-route-id="@restaurants.Id">Szczegóły</a>
+                    </div>
+
+                }
+            }
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="display-4">
+            Lokale
+        </div>
+        <div class="list-group">
+            @if (Model.Clubs != null)
+            {
+                @foreach (var club in Model.Clubs)
+                {
+                    var photoPath = "~/ImageClub/" + (club.ZdjecieUrl ?? "noImage.jpg");
+                    <div class="list-group-item  d-flex justify-content-between align-items-center mb-2 p-1">
+                        <img src="@photoPath" asp-append-version="true" class="rounded-circle" width="50" height="50" />
+                        <a>@club.Name</a>
+                        <a class="btn btn-info" asp-action="DetailsClub" asp-controller="MyAccount" asp-route-id="@club.Id">Szczegóły</a>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>

@@ -23,8 +23,8 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
-                    <ul class="navbar-nav flex-grow-1">
-                       
+                    <ul class="navbar-nav flex-grow-1 mx-4">
+
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Restaurant" asp-action="Index">Restauracje</a>
                         </li>
@@ -32,8 +32,12 @@
                             <a class="nav-link" asp-area="" asp-controller="Club" asp-action="Clubs">Kluby</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Event" asp-action="Events">Wydarzenia</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="Events" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wydarzenia</a>
+                            <div class="dropdown-menu" aria-labelledby="Events">
+                                <a class="dropdown-item" asp-controller="Event" asp-action="Events">Kulturalne</a>
+                                <a class="dropdown-item" asp-controller="Event" asp-action="Party">Imprezy</a>
+                            </div>
                         </li>
 
                         @if (SignInManager.IsSignedIn(User))
@@ -64,14 +68,14 @@
 
 
 
-                            <li class="nav nav-item nav-link dropdown ml-auto">
+                            <li class="nav-item nav-link dropdown ml-auto mr-3">
                                 <a class="navbar-collapse navbar-toggler-icon" href="#" id="profile"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </a>
                                 <div class="dropdown-menu shadow-lg border" background-color:honeydew aria-labelledby="profile">
                                     <button class="dropdown-item" type="button">Profil</button>
 
-                                    <a asp-controller="MyAccount" asp-action="MyRestaurants" class="dropdown-item">Dodane</a>
+                                    <a asp-controller="MyAccount" asp-action="MyLocals" class="dropdown-item">Dodane</a>
 
                                     <form method="post" asp-controller="Account" asp-action="LogOut">
                                         <button class="dropdown-item" type="submit">Wyloguj się</button>
@@ -79,7 +83,7 @@
                                 </div>
                             </li>
 
-                            
+
 
                         }
                         else
@@ -96,8 +100,11 @@
             </div>
         </nav>
     </header>
-    <div class="container" style="max-width:80%">
-        <main role="main" class="pb-3">
+    <div id="bodyimg">
+        <img src="~/ImageApplication/img(20).png" asp-append-version="true" id="tloimg"/>
+    </div>
+    <div class="container" style="width:80%">
+        <main role="main" class="pb-3" >
 
             @RenderBody()
 

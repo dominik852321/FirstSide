@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200221121032_Pierwsza.cs" />
     <Compile Remove="Migrations\20200221121032_Pierwsza.Designer.cs" />
+    <Compile Remove="Migrations\20200324161033_initializeadmin.cs" />
+    <Compile Remove="Migrations\20200324161033_initializeadmin.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +28,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Veldrid.ImageSharp" Version="4.7.0" />
   </ItemGroup>
 
 </Project>

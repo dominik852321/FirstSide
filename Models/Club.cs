@@ -22,6 +22,9 @@ namespace FirstSide.Models
         public string Description { get; set; }
         public string UserId { get; set; }
 
+        
+        public int Visitators { get; set; }
+
         public string ZdjecieUrl { get; set; }
 
         public ApplicationUser User { get; set; }

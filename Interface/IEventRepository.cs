@@ -9,8 +9,10 @@ namespace FirstSide.Interface
         IEnumerable<EventClub> GetEventClubs();
 
         EventRestaurant GetEventRestaurant(int id);
-
         EventClub GetEventClub(int id);
+
+        Club GetClub(int id);
+        Restaurant GetRestaurant(int id);
 
         void AddEventRestaurant(EventRestaurant model);
         void RemoveEventRestaurant(int id);
