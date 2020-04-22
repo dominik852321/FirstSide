@@ -5,7 +5,7 @@
 }
 
 <div class="row">
-    <form asp-action="AddMenu" asp-controller="Menu" method="post" class="col-5 mx-auto text-center" autocomplete="off">
+    <form asp-action="AddMenu" asp-controller="Menu" method="post" class="col-7 mx-auto text-center" autocomplete="off">
 
 
 
@@ -13,7 +13,7 @@
             <div class="display-4">@Model.RestaurantName</div>
             <input type="hidden" asp-for="@Model.RestaurantId" />
 
-            <div class="form-group row" style="margin-bottom:0.5rem">
+            <div class="form-group row " style="margin-bottom:0.5rem">
                 <div class="col-lg-3 p-1">
                     <label asp-for="AlcoholPromotions">Alkohol</label>
                 </div>
@@ -59,7 +59,7 @@
 
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary">Add menu</button>
-                <a class="btn btn-secondary" asp-action="Details" asp-controller="Restaurant" asp-route-id="@Model.RestaurantId">Wróć</a>
+                <a class="btn btn-secondary" asp-action="DetailsRestaurant" asp-controller="MyAccount" asp-route-id="@Model.RestaurantId">Wróć</a>
             </div>
 
         </div>

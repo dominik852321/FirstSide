@@ -27,7 +27,7 @@
 
 
 
-                <a class="btn btn-outline-primary" asp-action="EditDetailsClub" asp-controller="Club" asp-route-id="@Model.Id">Edytuj informacje</a>
+                <a class="btn btn-outline-primary" asp-action="Edit" asp-controller="Club" asp-route-id="@Model.Id">Edytuj informacje</a>
                 <a class="btn btn-outline-info" asp-action="AddParty" asp-controller="Event" asp-route-id="@Model.Id">Dodaj wydarzenie</a>
                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#DeleteRest">Usuń</button>
             </div>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="mx-auto row">
-                        <form asp-action="DeleteClub" asp-controller="Club" asp-route-id="@Model.Id" method="post">
+                        <form asp-action="Delete" asp-controller="Club" asp-route-id="@Model.Id" method="post">
                             <button class="btn btn-outline-info">Tak</button>
                         </form>
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Nie</button>

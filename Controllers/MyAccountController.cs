@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FirstSide.Controllers
 {
@@ -25,14 +26,13 @@ namespace FirstSide.Controllers
             _Repository = repo;
             _env = env;
             _userManager = userManager;
-
         }
 
-        
-        public IActionResult MyLocals()
+        [HttpGet]
+        public IActionResult Index()
         {
-            var user = _userManager.GetUserAsync(HttpContext.User);
-            var userT = _Repository.GetUser(user.Result.Id);
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            var userT = _Repository.GetUser(user.Id).Result;
 
             var homeVM = new HomeVM
             {
@@ -44,16 +44,16 @@ namespace FirstSide.Controllers
         }
 
         [HttpGet]
-        public IActionResult DetailsRestaurant(int id)
+        public ActionResult<Restaurant> DetailsRestaurant(int id)
         {
-            var restaurant = _Repository.GetRestaurant(id);
+            var restaurant = _Repository.GetRestaurant(id).Result;
             return View(restaurant);
         }
 
         [HttpGet]
-        public IActionResult DetailsClub(int id)
+        public ActionResult<Club> DetailsClub(int id)
         {
-            var club = _RepositoryClub.GetClub(id);
+            var club = _RepositoryClub.GetClub(id).Result;
             return View(club);
         }
 

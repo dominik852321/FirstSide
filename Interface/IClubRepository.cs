@@ -8,13 +8,13 @@ namespace FirstSide.Interface
 {
     public interface IClubRepository
     {
-        IEnumerable<Club> GetClubs();
-        IEnumerable<Photo> GetPhotos(int clubId);
-        IEnumerable<Club> SearchClub(string ClubName, string ClubCity);
+        Task<IEnumerable<Club>> GetClubs();
+        Task<IEnumerable<Photo>> GetPhotos(int clubId);
+        Task<IEnumerable<Club>> SearchClub(string ClubName, string ClubCity);
 
-        Club GetClub(int id);
-        Photo GetPhoto(int id);
-        ApplicationUser GetUser(string id);
+        Task<Club> GetClub(int id);
+        Task<Photo> GetPhoto(int id);
+        Task<ApplicationUser> GetUser(string id);
 
         
 

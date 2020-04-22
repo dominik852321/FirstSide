@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace FirstSide.Models
 {
@@ -23,7 +24,7 @@ namespace FirstSide.Models
             else
                 return false;
         }
-      
+
         public string Address { get; set; }
         public int Number { get; set; }
         public int PostCode { get; set; }
@@ -33,7 +34,22 @@ namespace FirstSide.Models
         public string Description { get; set; }
 
 
-
+        public ICollection<Comment> Comments { get; set; }
+        public string Average()
+        {
+            float marks = 0;
+            foreach(var item in Comments)
+            {
+                marks = marks + item.Rating;
+            };
+            if (Comments.Count > 0)
+            {
+                float wynik = marks / Comments.Count;
+                return wynik.ToString("0.00");
+            }
+            else
+                return null;
+        }
         public Menu Menu { get; set; }
         public ApplicationUser User { get; set; }
         public ICollection<Photo> photo { get; set; }

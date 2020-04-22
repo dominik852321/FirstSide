@@ -1,8 +1,10 @@
 ﻿using FirstSide.Interface;
 using FirstSide.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FirstSide.Repository
 {
@@ -15,39 +17,40 @@ namespace FirstSide.Repository
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<EventRestaurant> GetEventsRestaurants()
+        public async Task<IEnumerable<EventRestaurant>> GetEventsRestaurants()
         {
-            var result = _appDbContext.EventRestaurants.Include(s => s.Restaurant);
+            var result = await _appDbContext.EventRestaurants.Include(s => s.Restaurant).ToListAsync();
+
             return result;
         }
-        public IEnumerable<EventClub> GetEventClubs()
+        public async Task<IEnumerable<EventClub>> GetEventClubs()
         {
-            var result = _appDbContext.EventClubs.Include(s => s.Club);
+            var result =await _appDbContext.EventClubs.Include(s => s.Club).ToListAsync();
             return result;
         }
-        public Club GetClub(int id)
+        public async Task<Club> GetClub(int id)
         {
-            var result = _appDbContext.Clubs.FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.Clubs.FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 
-        public Restaurant GetRestaurant(int id)
+        public async Task<Restaurant> GetRestaurant(int id)
         {
-            var result = _appDbContext.Restaurants.FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.Restaurants.FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 
-        public EventClub GetEventClub(int id)
+        public async Task<EventClub> GetEventClub(int id)
         {
-            var result = _appDbContext.EventClubs.Include(s => s.Club)
-                                              .FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.EventClubs.Include(s => s.Club)
+                                              .FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 
-        public EventRestaurant GetEventRestaurant(int id)
+        public async Task<EventRestaurant> GetEventRestaurant(int id)
         {
-            var result = _appDbContext.EventRestaurants.Include(s => s.Restaurant)
-                                             .FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.EventRestaurants.Include(s => s.Restaurant)
+                                             .FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 
@@ -70,9 +73,9 @@ namespace FirstSide.Repository
             _appDbContext.SaveChanges();
         }
 
-       
 
-       
+
+
 
         public void AddEventClub(EventClub model)
         {
@@ -93,6 +96,6 @@ namespace FirstSide.Repository
             _appDbContext.SaveChanges();
         }
 
-       
+
     }
 }

@@ -104,7 +104,7 @@ body {
 
 #profile {
     color: ghostwhite;
-    font-size: 20px;
+    font-size: 25px;
     text-decoration: none;
 }
 
@@ -126,6 +126,20 @@ body {
 }
 
 #img {
-    height:200px;
+    height:30vh;
+    
 }
+
+.ratingStar {
+    font-size:25px;
+    color:gold;
+}
+
+.fa-star {
+   
+    color:gold
+}
+
+
+
 

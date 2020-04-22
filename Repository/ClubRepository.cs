@@ -3,6 +3,7 @@ using FirstSide.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FirstSide.Repository
 {
@@ -15,19 +16,17 @@ namespace FirstSide.Repository
             _appDbContext = app;
         }
 
-        public IEnumerable<Club> GetClubs()
+        public async Task<IEnumerable<Club>> GetClubs()
         {
-            var result = _appDbContext.Clubs.Include(s => s.Photos)
-                                            .Include(s => s.User)
-                                            .Include(s => s.EventClubs);
+            var result = await _appDbContext.Clubs.Include(s => s.Photos).ToListAsync();
             return result;
         }
-        public IEnumerable<Photo> GetPhotos(int clubId)
+        public async Task<IEnumerable<Photo>> GetPhotos(int clubId)
         {
-            var result = _appDbContext.Photos.Where(s => s.ClubId == clubId).ToList();
+            var result = await _appDbContext.Photos.Where(s => s.ClubId == clubId).ToListAsync();
             return result;
         }
-        public IEnumerable<Club> SearchClub(string ClubName, string ClubCity)
+        public async Task<IEnumerable<Club>> SearchClub(string ClubName, string ClubCity)
         {
             var result = from x in _appDbContext.Clubs select x;
 
@@ -43,28 +42,28 @@ namespace FirstSide.Repository
             {
                 result = result.Where(x => x.City.Contains(ClubCity));
             }
-            return result.AsNoTracking().ToList();
+            return await result.AsNoTracking().ToListAsync();
         }
 
 
-        public Club GetClub(int id)
+        public async Task<Club> GetClub(int id)
         {
-            var result = _appDbContext.Clubs.Include(s=>s.User)
+            var result = await _appDbContext.Clubs.Include(s=>s.User)
                                             .Include(s=>s.Photos)
                                             .Include(s=>s.EventClubs)
-                                            .FirstOrDefault(s => s.Id == id);
+                                            .FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
-        public Photo GetPhoto(int id)
+        public async Task<Photo> GetPhoto(int id)
         {
-            var result = _appDbContext.Photos.Include(s=>s.Club).FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.Photos.Include(s=>s.Club).FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 
-        public ApplicationUser GetUser(string id)
+        public async Task<ApplicationUser> GetUser(string id)
         {
-            var result = _appDbContext.Users.Include(s => s.Restaurants).Include(s => s.Clubs)
-                                            .FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.Users.Include(s => s.Restaurants).Include(s => s.Clubs)
+                                            .FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 

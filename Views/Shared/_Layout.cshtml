@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script src="https://kit.fontawesome.com/f35b5df2b2.js" crossorigin="anonymous"></script>
-
-
 </head>
 <body>
     <header>
@@ -29,7 +27,7 @@
                             <a class="nav-link" asp-area="" asp-controller="Restaurant" asp-action="Index">Restauracje</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Club" asp-action="Clubs">Kluby</a>
+                            <a class="nav-link" asp-area="" asp-controller="Club" asp-action="Index">Kluby</a>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -68,14 +66,14 @@
 
 
 
-                            <li class="nav-item nav-link dropdown ml-auto mr-3">
+                            <li class="nav-item nav-link dropdown ml-auto mr-3 p-0">
                                 <a class="navbar-collapse navbar-toggler-icon" href="#" id="profile"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </a>
                                 <div class="dropdown-menu shadow-lg border" background-color:honeydew aria-labelledby="profile">
                                     <button class="dropdown-item" type="button">Profil</button>
 
-                                    <a asp-controller="MyAccount" asp-action="MyLocals" class="dropdown-item">Dodane</a>
+                                    <a asp-controller="MyAccount" asp-action="Index" class="dropdown-item">Dodane</a>
 
                                     <form method="post" asp-controller="Account" asp-action="LogOut">
                                         <button class="dropdown-item" type="submit">Wyloguj się</button>

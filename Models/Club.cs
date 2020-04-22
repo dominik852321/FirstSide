@@ -27,6 +27,7 @@ namespace FirstSide.Models
 
         public string ZdjecieUrl { get; set; }
 
+        public ICollection<Comment> Comments { get; set; }
         public ApplicationUser User { get; set; }
         public ICollection<Photo> Photos { get; set; }
         public ICollection<EventClub> EventClubs { get; set; }

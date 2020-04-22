@@ -32,14 +32,10 @@ namespace FirstSide.Controllers
 
 
         [HttpGet]
-        public IActionResult Clubs()
+        public IActionResult Index()
         {
-            var clubs = _RepositoryClub.GetClubs();
-            var homeVM = new HomeVM
-            {
-                Clubs = clubs.ToList(),
-            };
-            return View(homeVM);
+            var clubs = _RepositoryClub.GetClubs().Result;
+            return View(clubs);
         }
         
         [HttpGet]
@@ -76,9 +72,15 @@ namespace FirstSide.Controllers
 
                 _RepositoryClub.AddClub(club);
 
-                return RedirectToAction(nameof(Clubs));
+                return RedirectToAction(nameof(Index));
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            return View();
         }
 
         [HttpPost]
@@ -87,13 +89,45 @@ namespace FirstSide.Controllers
             ViewBag.ClubName = ClubName;
             ViewBag.ClubCity = ClubCity;
 
-            var Club = _RepositoryClub.SearchClub(ClubName, ClubCity);
+            var Club = _RepositoryClub.SearchClub(ClubName, ClubCity).Result;
 
             var homeVM = new HomeVM
             {
                 Clubs = Club.ToList()
             };
             return PartialView("_Clubs",homeVM.Clubs);
+        }
+
+       
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var club = _RepositoryClub.GetClub(id).Result;
+
+            var Photos = _RepositoryClub.GetPhotos(id).Result;
+
+            _RepositoryClub.RemoveClub(id);
+            
+            if (club.ZdjecieUrl != null)
+            {
+                var deleteEnv = Path.Combine(_env.WebRootPath, "ImageClub", club.ZdjecieUrl);
+                FileInfo file = new FileInfo(deleteEnv);
+                System.IO.File.Delete(deleteEnv);
+                file.Delete();
+            }
+
+            _RepositoryClub.RemovePhotos(Photos);
+
+            var deleteEnv1 = Path.Combine(_env.WebRootPath, "ImageClub", Photos.ToString());
+
+            FileInfo file1 = new FileInfo(deleteEnv1);
+            if (file1 != null)
+            {
+                System.IO.File.Delete(deleteEnv1);
+                file1.Delete();
+            };
+
+            return RedirectToAction("Index", "MyAccount");
         }
 
        

@@ -59,6 +59,7 @@
     <script>
         $(document).ready(function () {
             $(".datepicker").datetimepicker({
+                minDate: new Date()
             });
 
             $(".custom-file-input").on("change", function () {
@@ -66,12 +67,7 @@
                 $(this).siblings(".custom-file-label").addClass("selected").html(filename);
             });
 
-            function getToday(date) {
-                var day = date.getDate();
-                var month = date.getMonth() + 1;
-                var year = date.getFullYear().toString().slice(2);
-                return day + '-' + month + '-' + year;
-            }
+            
         });
     </script>
 }

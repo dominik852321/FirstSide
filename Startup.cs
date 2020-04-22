@@ -2,6 +2,7 @@ using FirstSide.Interface;
 using FirstSide.Models;
 using FirstSide.Repository;
 using FirstSide.Security;
+using FirstSide.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,6 +56,9 @@ namespace FirstSide
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IClubRepository, ClubRepository>();
 
+            services.AddHostedService<DeletingOldItemsService>();
+            
+       
 
             services.AddSingleton<IAuthorizationHandler, CanEditOnlyOtherAdminRolesAndClaimsHandler>();
             services.AddSingleton<IAuthorizationHandler, SuperAdminHandler>();

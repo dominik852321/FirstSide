@@ -70,7 +70,7 @@
                     <div class="d-flex justify-content-around">
                         @if (Model.Menu != null)
                         {
-                            <a class="btn btn-outline-info" asp-action="Details" asp-controller="Menu" asp-route-id="@Model.Id">Przejdz do menu</a>
+                            <a class="btn btn-outline-info" asp-action="EditMenu" asp-controller="Menu" asp-route-id="@Model.Menu.Id">Edytuj menu</a>
                         }
                         else
                         {

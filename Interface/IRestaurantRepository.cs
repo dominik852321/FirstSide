@@ -6,19 +6,19 @@ namespace FirstSide.Interface
 {
     public interface IRestaurantRepository
     {
-        IEnumerable<Restaurant> GetRestaurants();
-        IEnumerable<Photo> GetPhotos(int restaurantid);
-        IEnumerable<Restaurant> SearchData(string nameRestaurant, string nameCity);
-        IEnumerable<Restaurant> SortedBy(int WhichSort);
+        Task<IEnumerable<Restaurant>> GetRestaurants();
+        Task<IEnumerable<Photo>> GetPhotos(int restaurantid);
+        Task<IEnumerable<Restaurant>> SearchData(string nameRestaurant, string nameCity);
+        Task<IEnumerable<Restaurant>> SortedBy(int WhichSort);
 
-        Restaurant GetRestaurant(int id);
-        Restaurant GetRestaurantAndUpdateVisitators(int id);
-        Menu GetMenu(int id);
-        Photo GetPhoto(int id);
-        ApplicationUser GetUser(string id);
+        Task<Restaurant> GetRestaurant(int id);
+        Task<Restaurant> GetRestaurantAndUpdateVisitators(int id);
+        Task<Menu> GetMenu(int id);
+        Task<Photo> GetPhoto(int id);
+        Task<ApplicationUser> GetUser(string id);
 
 
-
+        void AddComment(Comment model);
         void AddRestaurant(Restaurant model);
         void UpdateRestaurant(Restaurant model);
         void RemoveRestaurant(int Id);

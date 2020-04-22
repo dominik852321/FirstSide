@@ -26,7 +26,7 @@ namespace FirstSide.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var restaurant = _Repository.GetRestaurant(id);
+            var restaurant = _Repository.GetRestaurant(id).Result;
 
             return View(restaurant.Menu);
         }
@@ -37,7 +37,7 @@ namespace FirstSide.Controllers
         [HttpGet]
         public IActionResult AddMenu(int id)
         {
-            var restaurant = _Repository.GetRestaurant(id);
+            var restaurant = _Repository.GetRestaurant(id).Result;
             if (restaurant != null)
             {
                 var NewMenu = new RestaurantMenu
@@ -54,7 +54,7 @@ namespace FirstSide.Controllers
         [HttpPost]
         public IActionResult AddMenu(RestaurantMenu model)
         {
-            var restaurant = _Repository.GetRestaurant(model.RestaurantId);
+            var restaurant = _Repository.GetRestaurant(model.RestaurantId).Result;
 
             if (ModelState.IsValid && restaurant != null)
             {
@@ -79,7 +79,7 @@ namespace FirstSide.Controllers
         [HttpGet]
         public IActionResult EditMenu(int id)
         {
-            var menu = _Repository.GetMenu(id);
+            var menu = _Repository.GetMenu(id).Result;
             if (menu != null)
             {
                 return View(menu);

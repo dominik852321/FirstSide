@@ -91,15 +91,15 @@ namespace FirstSide.Migrations
                         {
                             Id = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9bb2579f-ee3b-4213-8280-d2b24a2838d3",
+                            ConcurrencyStamp = "718bffb4-6cb2-4779-8baf-d508f757929a",
                             Email = "domin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DOMIN@GMAIL.COM",
                             NormalizedUserName = "DOMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHX728b71d6NI/mKTo4VyMwBpyhGqXKuWKcd2SPLDGb4gAdP/MTjFF7k+fxZVRNb5A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHDpKyD3kjXv5VjgCq8wvHHflhb4QqcznRLQgODi9iDLlYL7dyNL7Tzqrc5rKW2qlA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0a8b2f3a-0f04-4b59-9834-9ae0a38030db",
+                            SecurityStamp = "a05d9dae-b6db-4c49-aeb9-b496bbd1496b",
                             TwoFactorEnabled = false,
                             UserName = "Domin"
                         });
@@ -144,6 +144,42 @@ namespace FirstSide.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Clubs");
+                });
+
+            modelBuilder.Entity("FirstSide.Models.Comment", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ClubId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeInsert")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("ClubId");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("FirstSide.Models.EventClub", b =>
@@ -356,7 +392,7 @@ namespace FirstSide.Migrations
                         new
                         {
                             Id = "2301D884-221A-4E7D-B509-0113DCC043E1",
-                            ConcurrencyStamp = "a81f9d37-16cc-4d58-85e5-8d183a500744",
+                            ConcurrencyStamp = "707fbd60-e44c-44f5-8f09-c674e9799ec7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -477,6 +513,21 @@ namespace FirstSide.Migrations
                 {
                     b.HasOne("FirstSide.Models.ApplicationUser", "User")
                         .WithMany("Clubs")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("FirstSide.Models.Comment", b =>
+                {
+                    b.HasOne("FirstSide.Models.Club", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("ClubId");
+
+                    b.HasOne("FirstSide.Models.Restaurant", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("RestaurantId");
+
+                    b.HasOne("FirstSide.Models.ApplicationUser", "User")
+                        .WithMany()
                         .HasForeignKey("UserId");
                 });
 

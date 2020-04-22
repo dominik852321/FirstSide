@@ -3,7 +3,7 @@ using FirstSide.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace FirstSide.Repository
 {
@@ -19,66 +19,68 @@ namespace FirstSide.Repository
 
 
 
-        public IEnumerable<Restaurant> GetRestaurants()
+        public async Task<IEnumerable<Restaurant>> GetRestaurants()
         {
-            var result = _appDbContext.Restaurants;
+            var result = await _appDbContext.Restaurants.ToListAsync();
 
             return result;
         }
 
 
-        public IEnumerable<Photo> GetPhotos(int restaurantid)
+        public async Task<IEnumerable<Photo>> GetPhotos(int restaurantid)
         {
-            var result = _appDbContext.Photos.Where(s => s.RestaurantId == restaurantid).ToList();
+            var result = await _appDbContext.Photos.Where(s => s.RestaurantId == restaurantid).ToListAsync();
             return result;
         }
 
 
-        public Restaurant GetRestaurant(int id)
+        public async Task<Restaurant> GetRestaurant(int id)
         {
-            var result = _appDbContext.Restaurants.Include(s => s.photo)
+            var result = await _appDbContext.Restaurants.Include(s => s.photo)
                                                   .Include(s => s.User)
                                                   .Include(s => s.Menu)
                                                   .Include(s => s.EventRestaurants)
-                                                  .FirstOrDefault(s => s.Id == id);
+                                                  .FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 
-        public Restaurant GetRestaurantAndUpdateVisitators(int id)
+        public async Task<Restaurant> GetRestaurantAndUpdateVisitators(int id)
         {
-            var result = _appDbContext.Restaurants.Include(s => s.photo)
+            var result = await _appDbContext.Restaurants.Include(s => s.photo)
                                                   .Include(s => s.Menu)
                                                   .Include(s => s.EventRestaurants)
-                                                  .FirstOrDefault(s => s.Id == id);
+                                                  .Include(s => s.Comments)
+                                                  .ThenInclude(s=>s.User)
+                                                  .FirstOrDefaultAsync(s => s.Id == id);
             result.Visitators++;
             UpdateRestaurant(result);
             return result;    
         }
 
 
-        public Menu GetMenu(int id)
+        public async Task<Menu> GetMenu(int id)
         {
-            var result = _appDbContext.Menus.Include(s => s.Restaurant)
-                                           .FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.Menus.Include(s => s.Restaurant)
+                                           .FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
-        public Photo GetPhoto(int id)
+        public async Task<Photo> GetPhoto(int id)
         {
-            var result = _appDbContext.Photos.Include(s => s.Restaurant)
-                                           .FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.Photos.Include(s => s.Restaurant)
+                                           .FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
-        public ApplicationUser GetUser(string id)
+        public async Task<ApplicationUser> GetUser(string id)
         {
-            var result = _appDbContext.Users.Include(s => s.Restaurants).Include(s => s.Clubs)
-                                            .FirstOrDefault(s => s.Id == id);
+            var result = await _appDbContext.Users.Include(s => s.Restaurants).Include(s => s.Clubs)
+                                            .FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 
 
-        public IEnumerable<Restaurant> SearchData(string nameRestaurant, string nameCity)
+        public async Task<IEnumerable<Restaurant>> SearchData(string nameRestaurant, string nameCity)
         {
-            var result = from x in _appDbContext.Restaurants.Include(x => x.User) select x;
+            var result =  from x in _appDbContext.Restaurants.Include(x => x.User) select x;
 
             if (!string.IsNullOrEmpty(nameRestaurant) && !string.IsNullOrEmpty(nameCity))
             {
@@ -95,10 +97,10 @@ namespace FirstSide.Repository
                 result = result.Where(x => x.Name.Contains(nameRestaurant));
             }
 
-            return result.AsNoTracking().ToList();
+            return await result.AsNoTracking().ToListAsync();
         }
 
-        public IEnumerable<Restaurant> SortedBy(int WhichSort)
+        public async Task<IEnumerable<Restaurant>> SortedBy(int WhichSort)
         {
             var result = from x in _appDbContext.Restaurants select x;
 
@@ -108,6 +110,7 @@ namespace FirstSide.Repository
                     result = result.OrderByDescending(s => s.Visitators);
                     break;
                 case 2:
+                    result = result.OrderByDescending(s => s.Comments.Count);
                     break;
                 case 3:
                     result = result.OrderByDescending(s => s.EventRestaurants.Count());
@@ -115,7 +118,7 @@ namespace FirstSide.Repository
                 default:
                     break;
             }
-            return result.AsNoTracking().ToList();
+            return await result.AsNoTracking().ToListAsync();
         }
 
 
@@ -124,14 +127,13 @@ namespace FirstSide.Repository
         {
             _appDbContext.Restaurants.Add(model);
             _appDbContext.SaveChanges();
-
         }
 
         public void UpdateRestaurant(Restaurant model)
         {
 
             _appDbContext.Restaurants.Update(model);
-            _appDbContext.SaveChangesAsync();
+            _appDbContext.SaveChanges();
         }
 
         public void RemoveRestaurant(int Id)
@@ -173,6 +175,10 @@ namespace FirstSide.Repository
             _appDbContext.SaveChanges();
         }
 
-        
+        public void AddComment(Comment model)
+        {
+            _appDbContext.Comments.Add(model);
+            _appDbContext.SaveChanges();
+        }
     }
 }

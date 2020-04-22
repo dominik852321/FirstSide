@@ -34,7 +34,7 @@ namespace FirstSide.Controllers
         [HttpGet]
         public IActionResult Events()
         {
-            var events = _RepositoryEvent.GetEventsRestaurants();
+            var events = _RepositoryEvent.GetEventsRestaurants().Result;
             var homeVM = new HomeVM()
             {
                 EventRestaurant = events.ToList()
@@ -45,7 +45,7 @@ namespace FirstSide.Controllers
         [HttpGet]
         public IActionResult Party()
         {
-            var events = _RepositoryEvent.GetEventClubs();
+            var events = _RepositoryEvent.GetEventClubs().Result;
             var homeVM = new HomeVM()
             {
                 EventClubs = events.ToList()
@@ -72,7 +72,7 @@ namespace FirstSide.Controllers
         {
             if (ModelState.IsValid)
             {
-                var restaurant = _RepositoryEvent.GetRestaurant(model.RestaurantId);
+                var restaurant = _RepositoryEvent.GetRestaurant(model.RestaurantId).Result;
                 string uniqueFileName = null;
 
 
@@ -122,7 +122,7 @@ namespace FirstSide.Controllers
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
-                var club = _RepositoryEvent.GetClub(model.ClubId);
+                var club = _RepositoryEvent.GetClub(model.ClubId).Result;
 
                 if (model.File != null)
                 {

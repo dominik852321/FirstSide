@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace FirstSide.Controllers
 {
@@ -34,9 +35,9 @@ namespace FirstSide.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var restaurants = _Repository.GetRestaurants();
-            
-            return View(restaurants.ToList());
+            var restaurants = _Repository.GetRestaurants().Result;
+
+            return View(restaurants);
         }
 
 
@@ -48,7 +49,7 @@ namespace FirstSide.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(RestaurantVM model)
+        public IActionResult Create(RestaurantVM model)
         {
             if (ModelState.IsValid && model.Name.Length != 0)
             {
@@ -57,12 +58,12 @@ namespace FirstSide.Controllers
 
                 if (model.PhotoFile != null)
                 {
+
                     string uploadsFolder = Path.Combine(_env.WebRootPath, "ImageRestaurant");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + model.PhotoFile.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    await model.PhotoFile.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                    ResizeImage(model.PhotoFile.OpenReadStream(), filePath);
                 }
-
                 Restaurant restaurant = new Restaurant
                 {
                     Name = model.Name,
@@ -74,25 +75,40 @@ namespace FirstSide.Controllers
                 _Repository.AddRestaurant(restaurant);
                 return RedirectToAction(nameof(Index));
             }
-
             return View("Model is not valid");
         }
 
+        private static void ResizeImage(Stream stream, string filePath)
+        {
+            using (Image image = Image.Load(stream))
+            {
+                image.Mutate(x => x.Resize(image.Size()/4));
+                image.Save(filePath);
+            }
+        }
 
-
-
+       
 
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var restaurant = _Repository.GetRestaurantAndUpdateVisitators(id);
-            return View(restaurant);
+            var restaurant = _Repository.GetRestaurantAndUpdateVisitators(id).Result;
+
+            var details = new RestaurantOpinionVM
+            {
+                Restaurant = restaurant,
+                CommentVM = new CommentVM
+                {
+                    Id = id,
+                }
+            };
+            return View(details);
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var restaurant = _Repository.GetRestaurant(id);
+            var restaurant = _Repository.GetRestaurant(id).Result;
             if (restaurant != null)
             {
                 return View(restaurant);
@@ -121,7 +137,7 @@ namespace FirstSide.Controllers
         [HttpPost]
         public ActionResult UploadFiles(int id)
         {
-            var restaurant = _Repository.GetRestaurant(id);
+            var restaurant = _Repository.GetRestaurant(id).Result;
             if (restaurant != null)
             {
 
@@ -170,8 +186,8 @@ namespace FirstSide.Controllers
         [HttpPost]
         public ActionResult DeletePhoto(int id)
         {
-            var photo = _Repository.GetPhoto(id);
-            var restaurant = _Repository.GetRestaurant(photo.Restaurant.Id);
+            var photo = _Repository.GetPhoto(id).Result;
+            var restaurant = _Repository.GetRestaurant(photo.Restaurant.Id).Result;
 
             if (photo != null && restaurant != null)
             {
@@ -195,8 +211,8 @@ namespace FirstSide.Controllers
         [HttpPost]
         public IActionResult DeleteRestaurant(int id)
         {
-            var restaurant = _Repository.GetRestaurant(id);
-            var Photos = _Repository.GetPhotos(id);
+            var restaurant = _Repository.GetRestaurant(id).Result;
+            var Photos = _Repository.GetPhotos(id).Result;
 
 
             _Repository.RemoveRestaurant(id);
@@ -220,26 +236,50 @@ namespace FirstSide.Controllers
                 file1.Delete();
             };
 
-            return RedirectToAction("Index", "Restaurant");
+            return RedirectToAction("Index", "MyAccount");
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult SearchRestaurant(string CurrentFilterName, string CurrentFilterCity)
         {
 
             ViewBag.CurrentFilterName = CurrentFilterName;
             ViewBag.CurrentFilterCity = CurrentFilterCity;
 
-            var restaurant = _Repository.SearchData(CurrentFilterName, CurrentFilterCity);
+            var restaurant = _Repository.SearchData(CurrentFilterName, CurrentFilterCity).Result;
 
-            return PartialView("_Restaurants", restaurant.ToList());
+            return PartialView("_Restaurants", restaurant);
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult SortedRestaurant(int WhichSort)
         {
-            var restaurant= _Repository.SortedBy(WhichSort);
-            return PartialView("_Restaurants", restaurant.ToList());
+            var restaurant = _Repository.SortedBy(WhichSort).Result;
+            return PartialView("_Restaurants", restaurant);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult AddComment(CommentVM commentVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _userManager.GetUserAsync(HttpContext.User);
+                var date = DateTime.Now;
+                var Comment = new Comment
+                {
+                    RestaurantId = commentVM.Id,
+                    Description = commentVM.Description,
+                    Rating = commentVM.Rating,
+                    User = user.Result,
+                    TimeInsert = date
+                };
+                _Repository.AddComment(Comment);
+                return RedirectToAction("Details", new { id = commentVM.Id });
+            }
+
+            return View("Model is not valid");
         }
 
 

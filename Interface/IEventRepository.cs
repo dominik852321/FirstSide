@@ -1,18 +1,19 @@
 ﻿using FirstSide.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FirstSide.Interface
 {
     public interface IEventRepository
     {
-        IEnumerable<EventRestaurant> GetEventsRestaurants();
-        IEnumerable<EventClub> GetEventClubs();
+        Task<IEnumerable<EventRestaurant>> GetEventsRestaurants();
+        Task<IEnumerable<EventClub>> GetEventClubs();
 
-        EventRestaurant GetEventRestaurant(int id);
-        EventClub GetEventClub(int id);
+        Task<EventRestaurant> GetEventRestaurant(int id);
+        Task<EventClub> GetEventClub(int id);
 
-        Club GetClub(int id);
-        Restaurant GetRestaurant(int id);
+        Task<Club> GetClub(int id);
+        Task<Restaurant> GetRestaurant(int id);
 
         void AddEventRestaurant(EventRestaurant model);
         void RemoveEventRestaurant(int id);
